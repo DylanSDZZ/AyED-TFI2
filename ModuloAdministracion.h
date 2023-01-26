@@ -1,7 +1,6 @@
 //Libreria del Modulo Administracion 
 
 //---------------------------------------SECCION INICIO DE SESION ADMINISTRADORES--------------------------------------------//
-
 int iniciarSesionAdmin()//Inicio de sesion de administradores, ingresa al archivo Usuarios.dat y comprueba la existencia del usuario
 {
 	FILE *archivo;
@@ -9,7 +8,7 @@ int iniciarSesionAdmin()//Inicio de sesion de administradores, ingresa al archiv
 	user aux;
 	
 	char nomUsuario[20], contra[40];
-	int  cod=1;
+	int  cod=1, usuarioPermitido=1;
 	
 	
 	while(cod==1)
@@ -26,15 +25,27 @@ int iniciarSesionAdmin()//Inicio de sesion de administradores, ingresa al archiv
 		
 			if(strcmp(aux.nick, nomUsuario)==0 and  strcmp(aux.pass, contra)==0)
 			{
+				if(aux.tipo==1)
+				{
 				fclose(archivo);
 				printf("\n\n %c%c Presione una tecla para ingresar al sistema...", 33, 33); getchar(); system("CLS");
 				return 1;//Retorna 1 en caso de que haya coincidencia con la base de datos
+				}else
+					{
+						printf("\n\n %c%c No posee los permisos para entrar a este modulo...\n\n", 33, 33);
+						usuarioPermitido=0;
+						break;
+					}
+				
+				
 			}
 			else fread(&aux, sizeof(aux), 1, archivo);
 			
 		}
 		
-		printf("\n %c%c Nombre de usuario y/o contrase%ca INCORRECTOS\n\n", 33, 33, 164);
+		if(usuarioPermitido) printf("\n %c%c Nombre de usuario y/o contrase%ca INCORRECTOS\n\n", 33, 33, 164);
+	
+		
 		printf("\n\n %c Ingrese 1 si quiere intentar nuevamente, o ingrese  0 para salir: ", 04); scanf("%d", &cod);
 		system("CLS");
 	
