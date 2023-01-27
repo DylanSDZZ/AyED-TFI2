@@ -542,6 +542,239 @@ void mostrarUsuarios()//Muestra los usuarios guardados en Usuarios.dat
 
 
 
+//-------------------------------------------[3] SECCION REGISTRAR ENTRENADORES ---------------------------------------------//
+
+//[+]Funciones para que se relacionan con la funcion de validar NOMBRE DE USUARIO (del Entrenador):
+int unicidadNombreEntrenador(char nomUser[20])//Determina si no existen otros nombres de usuarios (de entrenadores) iguales dentro de la base de datos
+{
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Entrenadores.dat", "rb");
+	entrenador aux;
+	
+	fread(&aux, sizeof(aux), 1, archivo);
+	while(!feof(archivo))
+	{
+		if(strcmp(aux.nick, nomUser)==0)
+		{
+			fclose(archivo);	
+			return 0;
+		}
+		else fread(&aux, sizeof(aux), 1, archivo);
+		
+	}
+	
+	fclose(archivo);
+
+	return 1;
+}
+
+//[*]Validaciones
+int validarLegajoEntrenador(int leg)//Determina si el numero de legajo es unico. Devuelve 1, en caso afirmativo.
+{	
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Entrenadores.dat", "rb");
+	entrenador aux;
+		
+	fread(&aux, sizeof(aux), 1, archivo);
+	while(!feof(archivo))
+	{
+		if(aux.legajo==leg)
+		{
+			fclose(archivo);	
+			return 0;
+		}
+		else fread(&aux, sizeof(aux), 1, archivo);
+		
+	}
+	
+	fclose(archivo);
+
+	return 1;
+
+	
+}
+
+void validarNombreUsuarioEntrenador(char nick[20])// Valida el NOMBRE DE USUARIO (del Entrenador)
+{
+	int atu=0; //Variable para determinar si el nombre de usuario es correcto o no
+	
+	while(atu==0)
+	{
+	_flushall();
+	printf("\n\n + Ingrese el Nombre de Usuario: "); gets(nick);
+		
+		//Comprobacion 1
+		if(minuscula(nick[0]))
+		{
+			//Comprobacion 2
+			if(cantMayusculas(nick))
+			{
+				//Comprobacion 3
+				if(tresDigitos(nick))
+				{
+					//Comprobacion 4
+					if(strlen(nick)>5 and strlen(nick)<11)
+					{
+						//Comprobacion 5
+						if(cadPermitida(nick))
+						{
+							if(unicidadNombreEntrenador(nick))
+							{
+								printf("\n\n + El nombre --  %s  -- esta disponible para su uso...\n\n\n ", nick);
+								atu=1;	
+								
+							}else printf("\n - El Nombre de usuario ya esta en uso, elija otro...\n");
+							
+						}else printf("\n - El Nombre de Usuario tiene caracteres no permitidos, intente nuevamente... \n");
+						
+					}else printf("\n - El Nombre de Usuario debe tener entre 6 y 10 caracteres, intente nuevamente.. \n");
+					
+				}else printf("\n - El Nombre de Usuario debe tener como MAXIMO 3 digitos, intente nuevamente... \n");
+					
+			}else printf("\n - El Nombre de Usuario debe tener al menos 2 MAYUSCULAS, intente nuevamente... ");
+	
+		}else printf("\n - El Nombre de Usuario no empieza con minuscula, intente nuevamente... \n");
+	
+		
+	}
+	printf(" - "); system("pause"); system("cls");	
+}	
+
+
+//[*]Manipulacion de archivos
+void crearEntrenador(entrenador nuevo)//Guarda el Entrenador creado en Entrenadores.dat
+{
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Entrenadores.dat", "a+b");
+	
+	fwrite(&nuevo, sizeof(entrenador), 1, archivo);
+	
+	fclose(archivo);
+	
+}
+
+
+void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.dat
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Entrenadores.dat","rb");
+	int i=0;
+	entrenador aux;
+	
+>>>>>>> Master
+	system("cls");	
+	
+	if(arc==NULL)
+	{
+		printf ("\nNo se pudo abrir el archivo");
+>>>>>>> Master
+	}
+	
+	else
+	{
+		printf("\n------------%cENTRENADORES REGISTRADOS%c------------\n",04,04);
+	
+		fread(&aux,sizeof(aux),1, arc);	
+		while(!feof(arc))
+		{
+			printf("\n %c Apellido y nombre:  %s\n", 04, aux.apynom);
+			
+			printf("\n %c Numero de Legajo:  %d\n", 04, aux.legajo);
+			
+			printf("\n %c Dias que trabaja:  %d\n", 04, aux.diasAtencion);
+				
+			printf("\n %c Nombre de usuario: %s \n", 04, aux.nick);
+			
+			printf("\n %c Contrase%ca de usuario: %s \n", 04, 164, aux.pass);
+			
+			printf("\n------------%c ------------------ %c------------\n",04,04);
+			
+			fread(&aux,sizeof(aux),1, arc);	
+		} 
+		
+		fclose(arc);
+	}
+	
+	fclose(arc);
+	printf("\n\n");
+	system("PAUSE");
+	system("CLS");
+}
+
+
+void regEntrenadores()//Funcion para registrar Entrenadores
+{
+	//Inicializacion de Archivo
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Entrenadores.dat", "a+b");
+	fclose(archivo);
+	
+	int confirm=0;//Se la utiliza para confirmar la creacion del entrenador
+	entrenador aux;//Declaramos la variable auxiliar para guardar los datos en el archivo
+	
+	//Encabezado
+	printf("\n "); system("pause"); system("cls");	
+	printf("\n\n--------------------------%c REGISTRO DE ENTRENADORES %c--------------------------\n", 04, 04);
+	
+	//Se ingresa el apellido y el nombre
+	_flushall();
+	printf("\n + Ingrese el nombre y apellido del entrenador: ");	gets(aux.apynom);
+	
+	//Se ingresa la cantidad de dias de atencion, entre 1 y 6.
+	_flushall();
+	while (aux.diasAtencion>6 or aux.diasAtencion<=0)
+	{
+		printf("\n\n + Ingrese la cantidad de dias que trabaja el entrenador a la semana: ");	scanf("%d", &aux.diasAtencion);
+			
+		if(aux.diasAtencion>6 or aux.diasAtencion<=0) printf ("\n %c%c Ingrese una cantidad correcta... \n", 33, 33);
+			
+	}
+	
+	//Se ingresa el numero de legajo y se valida su unicidad
+	do
+	{
+		printf("\n\n + Ingrese el legajo del entrenador: ");	scanf("%d", &aux.legajo);
+			
+		if(!(validarLegajoEntrenador(aux.legajo))) printf ("\n %c%c Este numero legajo ya se encuentra registrado, intente nuevamente... \n", 33, 33);		
+		
+	}while(!(validarLegajoEntrenador(aux.legajo)));
+	
+	//Creacion y validacion del nombre de usuario del entrenador
+	printf("\n\n - "); system("pause"); system("cls");	
+	
+	printf("\n\n--------------------------%c REGISTRO DE ENTRENADORES %c--------------------------\n", 04, 04);
+	printf("\n ** PARA CREAR EL NOMBRE DE USUARIO, TENER EN CUENTA LOS SIGUIENTES CRITERIOS ** \n");
+	printf("\n * 6 caracteres como MINIMO y 10 como MAXIMO \n\n * Comenzar con una letra minuscula");
+	printf("\n\n * Tener al menos 2 letras MAYUSCULAS	    \n\n * Maximo 3 digitos\n\n * Solo poseer caracteres alfanumericos o los siguientes: (+, -, /,*,?,%c,!,%c)\n\n", 168 , 173);
+	
+	validarNombreUsuarioEntrenador(aux.nick);//Registra y valida el Nombre de Usuario del Entrenador
+	
+	//Creacion y validacion de la contraseña
+	printf("\n\n--------------------------%c REGISTRO DE ENTRENADORES %c--------------------------\n", 04, 04);
+	printf("\n ** PARA CREAR SU CONTRASE%cA, TENER EN CUENTA LOS SIGUIENTES CRITERIOS ** \n", 165);
+	printf("\n * Tener entre 6 y 32 caracteres \n\n * Tener 1 minuscula, 1 mayuscula y 1 numero\n");
+	printf("\n * Solo poseer caracteres alfanumericos \n\n * No tener mas de 3 numeros consecutivos (ej. 1234)\n");
+	printf("\n * No tener dos letras consecutivas (ejs.: ab, aB, AB)\n\n");
+	
+	validarPassword(aux.pass);//Registra y valida la Contraseña del entrenador
+	
+	printf("\n\n--------------------------%c REGISTRO DE ENTRENADORES %c--------------------------\n", 04, 04);
+	printf("\n + Ingrese 1 para CONFIRMAR el registro del entrenador y 0 para cancelar: "); scanf("%d", &confirm);
+	if(confirm==1) 
+	{
+		crearEntrenador(aux);
+		printf("\n\n %c Usuario %s registrado exitosamente.\n\n %c No olvide guardar su contrase%ca: %s", 04, aux.nick, 04, 164, aux.pass);
+		
+	}else printf("\n\n %c%c El usuario NO ha sido registrado...\n", 33, 33);
+	
+	printf("\n\n\n - "); system("pause"); system("cls");
+	
+
+}
+//---------------------------------------------------------------------------------------------------------------------------//
+
+
+
 //---------------------------------------[4] SECCION REGISTRO DE ACTIVIDADES ------------------------------------------------//
 
 
@@ -775,23 +1008,21 @@ void generarCodigo_Actividad(int horario, char tipo, char cod[5])
 	
 	strcat(inicial, numero);
 	strcpy(cod, inicial);
-	
 }
 
+	//[*]Funcion de manipulacion de archivos
 
-
-//[*]Funcion de manipulacion de archivos
 void crearActividad(actividades nuevo)//Guarda la Actividad creada en Actividades.dat
 {
 	FILE *archivo;
 	archivo = fopen("../Base_de_datos/Actividades.dat", "a+b");
 	
 	fwrite(&nuevo, sizeof(actividades), 1, archivo);
-	
+
+		
 	fclose(archivo);
 	
 }
-
 
 //[**]Funciones de impresion
 
@@ -880,11 +1111,10 @@ void mostrarActividades()//Muestra las Actividades guardadas en Actividades.dat
 		printf ("\n 			       -->>> ERROR <<<-- \n");
 		printf ("\n > El archivo no existe, intente registrar una Actividad e intente nuevamente...\n");
 	}
-	
 	else
 	{
 		printf("\n\n---------------------------%c ACTIVIDADES REGISTRADAS %c--------------------------\n", 04, 04);
-	
+		
 		fread(&aux,sizeof(aux),1, arc);	
 		while(!feof(arc))
 		{
@@ -894,12 +1124,9 @@ void mostrarActividades()//Muestra las Actividades guardadas en Actividades.dat
 		
 		fclose(arc);
 		
-	
 	}
-	
+
 	fclose(arc);
-
-
 }
 
 
@@ -982,4 +1209,5 @@ void regActividad()//Registra una actividad
 
 
 //---------------------------------------------------------------------------------------------------------------------------//
-
+	
+	
