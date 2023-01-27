@@ -540,6 +540,8 @@ void mostrarUsuarios()//Muestra los usuarios guardados en Usuarios.dat
 //---------------------------------------------------------------------------------------------------------------------------//
 
 
+
+
 //-------------------------------------------[3] SECCION REGISTRAR ENTRENADORES ---------------------------------------------//
 
 //[+]Funciones para que se relacionan con la funcion de validar NOMBRE DE USUARIO (del Entrenador):
@@ -588,9 +590,9 @@ int validarLegajoEntrenador(int leg)//Determina si el numero de legajo es unico.
 	fclose(archivo);
 
 	return 1;
+
 	
 }
-
 
 void validarNombreUsuarioEntrenador(char nick[20])// Valida el NOMBRE DE USUARIO (del Entrenador)
 {
@@ -659,11 +661,13 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 	int i=0;
 	entrenador aux;
 	
+>>>>>>> Master
 	system("cls");	
 	
 	if(arc==NULL)
 	{
 		printf ("\nNo se pudo abrir el archivo");
+>>>>>>> Master
 	}
 	
 	else
@@ -692,7 +696,6 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 	}
 	
 	fclose(arc);
-
 	printf("\n\n");
 	system("PAUSE");
 	system("CLS");
@@ -769,3 +772,442 @@ void regEntrenadores()//Funcion para registrar Entrenadores
 
 }
 //---------------------------------------------------------------------------------------------------------------------------//
+
+
+
+//---------------------------------------[4] SECCION REGISTRO DE ACTIVIDADES ------------------------------------------------//
+
+
+//[!]Funciones que se relacionan con la funcion regActividad
+
+//[1]Funciones que ingresan y validan los datos
+int ingresarTipo_Actividad(char &tipo)//Se ingresa y se valida que el tipo de actividad sea el correcto
+{
+	char aux;
+	//Se ingresa el caracter que representa al tipo de actividad
+	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c-------------------------\n", 04, 04);
+	printf("\n %c TIPOS DE ACTIVIDAD: \n\n		%c [Z]: Zumba	%c [S]: Spining	%c [P]: Pilates \n", 26, 04, 04, 04);
+	do
+	{
+		_flushall();
+		printf("\n %c Ingrese la inicial (en MAYUSCULAS) correspondiente a la actividad: ", 04); scanf("%c", &tipo);
+		
+		
+		if (tipo!='Z' and tipo!='S' and tipo!='P') 
+		{
+			printf("\n %c Se ingreso un tipo de actividad incorrecto...\n\n", 33);
+		
+		}
+		else 
+		{
+			printf("\n\n\n - "); system("PAUSE"); system("CLS");
+			return 1;	
+		}
+	}while (tipo!='Z' and tipo!='S' and tipo!='P');
+	
+	return 0;
+}
+
+
+int disponibilidadHoraria(char tipo_actividad, int &turno)//Se ingresa y se consulta la disponibilidad de horario para una actividad determinada
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Actividades.dat", "rb");
+	
+	int suma=0, i=0, array[6], valido=0;
+	actividades aux;
+
+	for(i=0; i<6; i++)
+	{
+		array[i]=0;
+	}
+
+
+	
+	fread(&aux, sizeof(actividades), 1, archivo);
+	while (!feof(archivo))
+	{
+		if(aux.tipo == tipo_actividad)
+		{		
+			array[aux.horario-1]=1;
+			fread(&aux, sizeof(actividades), 1, archivo);
+			
+		}else fread(&aux, sizeof(actividades), 1, archivo);
+	}
+	
+	fclose(archivo);
+	
+	
+	for(int i=0; i<6; i++)
+	{
+		suma+=array[i];
+	}
+	 
+	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+	
+	if(suma<6 and suma>=0)
+	{
+		printf("\n\n %c TURNOS DISPONIBLES PARA LA ACTIVIDAD SELECCIONADA \n", 26);
+		
+		for(i=0; i<6; i++)
+		{
+			if(array[i]==0)
+			{
+				switch(i+1)
+				{
+					case 1:		
+						printf("\n [1] - PRIMER TURNO:  10:00 A 12:00 HORAS\n");
+					break;
+						
+					case 2:		
+						printf("\n [2] - SEGUNDO TURNO: 12:00 A 14:00 HORAS\n");
+					break;
+					
+					case 3:		
+						printf("\n [3] - TERCER TURNO:  14:00 A 16:00 HORAS\n");
+					break;
+					
+					case 4:		
+						printf("\n [4] - CUARTO TURNO:  16:00 A 18:00 HORAS\n");
+					break;
+					
+					case 5:		
+						printf("\n [5] - QUINTO TURNO:  18:00 A 20:00 HORAS\n");
+					break;
+					
+					case 6:		
+						printf("\n [6] - SEXTO TURNO:   20:00 A 22:00 HORAS\n");
+					break;
+						
+				}
+			}
+		}
+		
+		
+		while(valido==0)
+		{
+			printf("\n\n %c Ingrese el numero de turno elegido: ", 04); scanf("%d", &turno);
+			
+			if(turno>0 and turno<7)
+			{
+				if(array[turno-1]==0)
+				{
+					valido =1;
+					printf("\n\n  %c Turno registrado exitosamente ", 26);
+					
+					printf("\n\n\n - "); system("PAUSE"); system("CLS");
+					return 1;
+					
+				}else printf("\n\n %c TURNO NO DISPONIBLE, ingrese nuevamente...\n", 33);
+				
+			}else printf("\n\n %c NUMERO DE TURNO INCORRECTO, ingrese nuevamente...\n", 33);
+		}
+			
+	}else
+	{
+		printf("\n [%c] - NO HAY NUEVOS TURNOS DISPONIBLES PARA ESTA ACTIVIDAD\n");	
+		return 0;
+	} 
+	
+	return 0;
+}
+
+
+int existenciaEntrenador(int &legajo_entrenador)//Se valida que el entrenador exista
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Entrenadores.dat", "rb");
+	
+	entrenador entrena_auxiliar;
+	int legajo_auxiliar, permiso=1;
+	
+	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+
+	
+	while(permiso==1)
+	{
+		printf("\n %c Ingrese el numero de legajo del entrenador responsable: ", 04); scanf("%d", &legajo_auxiliar);
+			
+		if(archivo==NULL)
+		{
+			printf("\n %c No hay entrenadores registrados en la base de datos. Registre uno, e intente nuevamente...", 33);
+			return 0;
+		}
+		else
+		{
+			fread(&entrena_auxiliar, sizeof(entrenador), 1, archivo);
+			while(!feof(archivo))
+			{
+				if(legajo_auxiliar == entrena_auxiliar.legajo)
+				{
+					legajo_entrenador=legajo_auxiliar;
+					fclose(archivo);
+						
+					return 1;
+					
+				}else fread(&entrena_auxiliar, sizeof(entrenador), 1, archivo);	
+			}
+		}
+		
+		printf("\n %c Se ingreso un legajo de entrenador incorrecto...\n", 33);
+		printf("\n\n   %c Ingrese 1 si quiere volver a intentar con otra legajo: ", 26); 
+		scanf("%d", &permiso);
+		printf("\n\n");
+		
+		rewind(archivo);
+		
+	}
+	fclose(archivo);
+	return 0;
+		
+}
+
+
+int entrenadorDisponible(int legajo_entrenador, int  turno, char tipo)//Se valida que el entrenador este disponible en el horario designado
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Actividades.dat", "rb");
+	
+	actividades auxiliar;
+	
+	fread(&auxiliar, sizeof(actividades), 1, archivo);	
+	while(!feof(archivo))
+	{
+		if(legajo_entrenador==auxiliar.legEntrenador and turno==auxiliar.horario)
+		{
+			if(tipo==auxiliar.tipo)
+			{
+				printf("\n\n %c El entrenador ya tiene registrada ESTE tipo de actividad en este turno...", 33);
+				fclose(archivo);
+				return 0;
+			}
+			else 
+			{
+				printf("\n\n %c El entrenador ya tiene registrada OTRO tipo de actividad en este turno...", 33);
+				fclose(archivo);
+				return 0;
+			}
+					
+		}else fread(&auxiliar, sizeof(actividades), 1, archivo);
+	}
+	
+	printf("\n\n   %c El entrenador ESTA DISPONIBLE en este turno...", 26);
+	fclose(archivo);
+	printf("\n\n\n - "); system("PAUSE"); system("CLS");
+	return 1;
+}
+
+
+void generarCodigo_Actividad(int horario, char tipo, char cod[5])
+{
+	char inicial[2], numero[2];
+	inicial[0]=tipo;
+	inicial[1]='\0';
+	
+	sprintf(numero, "%d", horario);
+	
+	strcat(inicial, numero);
+	strcpy(cod, inicial);
+}
+
+	//[*]Funcion de manipulacion de archivos
+
+void crearActividad(actividades nuevo)//Guarda la Actividad creada en Actividades.dat
+{
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Actividades.dat", "a+b");
+	
+	fwrite(&nuevo, sizeof(actividades), 1, archivo);
+
+		
+	fclose(archivo);
+	
+}
+
+//[**]Funciones de impresion
+
+int buscarNombre_Entrenador(int legajo, char nombre[61])//Busca el nombre de un entrenador por su legajo
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Entrenadores.dat","rb");
+	entrenador aux;
+	
+	fread(&aux,sizeof(aux),1, arc);	
+	while(!feof(arc))
+	{
+		if(aux.legajo==legajo)
+		{
+			strcpy(nombre, aux.apynom);
+			fclose(arc);	
+			return 1;
+		}
+		else fread(&aux, sizeof(aux), 1, arc);	
+	} 
+		
+	fclose(arc);
+	return 0;
+}
+
+
+void imprimirActividad(actividades act)//Imprime los datos de la actividad que se envia como parametro
+{
+	printf("\n %c Codigo de la actividad: %s  \n", 04, act.cod);
+	
+	printf("\n %c Tipo de actividad: ", 04);
+	if(act.tipo=='Z') printf(" Zumba\n");
+	if(act.tipo=='S') printf(" Spining\n");
+	if(act.tipo=='P') printf(" Pilates\n");
+	
+	printf("\n %c Horario:  ", 04);
+	switch(act.horario)
+	{
+		case 1:		
+			printf("10:00 A 12:00 HORAS\n");
+		break;
+			
+		case 2:		
+			printf("12:00 A 14:00 HORAS\n");
+		break;
+		
+		case 3:		
+			printf("14:00 A 16:00 HORAS\n");
+		break;
+		
+		case 4:		
+			printf("16:00 A 18:00 HORAS\n");
+		break;
+		
+		case 5:		
+			printf("18:00 A 20:00 HORAS\n");
+		break;
+		
+		case 6:		
+			printf("20:00 A 22:00 HORAS\n");
+		break;					
+						
+	}
+		
+	//Busca el nombre del entrenador a partir de su legajo y lo imprime
+	char aux_nombre[61];	
+	buscarNombre_Entrenador(act.legEntrenador, aux_nombre);
+	printf("\n %c Entrenador a cargo: %s\n", 04, aux_nombre); 
+	
+	printf("\n %c Cantidad de socios registrados: %d \n", 04, act.cantParticipantes);
+	
+	printf("\n-------------------------- %c ----------------------- %c -------------------------\n",04,04);
+}
+
+
+void mostrarActividades()//Muestra las Actividades guardadas en Actividades.dat
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Actividades.dat","rb");
+	actividades aux;
+	
+	system("cls");	
+	
+	if(arc==NULL)
+	{
+		printf ("\n 			       -->>> ERROR <<<-- \n");
+		printf ("\n > El archivo no existe, intente registrar una Actividad e intente nuevamente...\n");
+	}
+	else
+	{
+		printf("\n\n---------------------------%c ACTIVIDADES REGISTRADAS %c--------------------------\n", 04, 04);
+		
+		fread(&aux,sizeof(aux),1, arc);	
+		while(!feof(arc))
+		{
+			imprimirActividad(aux);
+			fread(&aux,sizeof(aux),1, arc);	
+		} 
+		
+		fclose(arc);
+		
+	}
+
+	fclose(arc);
+}
+
+
+
+//[***]Funciones adicionales
+void intentarNuevamente(int &autorizacion)//Muestra un mensaje de error, indicando si desea intentar de nuevo
+{
+	printf("\n\n\n %c Ingrese 1 si quiere volver a intentar con otra Actividad, otro numero en caso contrario: ", 04); 
+	scanf("%d", &autorizacion);
+	system("cls");
+}
+
+
+
+
+//[1]Funcion Principal
+void regActividad()//Registra una actividad
+{
+	FILE *archivo;
+	archivo = fopen("../Base_de_datos/Actividades.dat", "a+b");
+	fclose(archivo);
+	 
+	int autorizacion =1, confirmar=0;
+	
+	system("cls");
+	
+	
+	while(autorizacion==1)
+	{	
+		actividades nueva;
+		
+		//Primera Comprobacion: Se ingresa el tipo de Actividad
+		if(ingresarTipo_Actividad(nueva.tipo))
+		{
+		
+			//Segunda Comprobacion: Se verifica si hay nuevo turnos disponibles y se lo ingresa, en caso positivo
+			if(disponibilidadHoraria(nueva.tipo, nueva.horario))
+			{
+				//Tercera Comprobacion: Verifica que el legajo del entrenador que se quiere asignar, exista
+			 	if(existenciaEntrenador(nueva.legEntrenador))
+			 	{
+			 		//Cuarta Comprobacion: Se determina que el entrenador que se quiere asignar, este disponible en este horario
+				 	if(entrenadorDisponible(nueva.legEntrenador, nueva.horario, nueva.tipo))
+				 	{
+				 		//Generamos el codigo de la actividad, a partir del tipo(inicial) y horario(turno) que se elijió para la misma
+						generarCodigo_Actividad(nueva.horario, nueva.tipo, nueva.cod);
+						
+						//Definimos el parametro cantidad de participantes en 0, para que luego sea incrementado
+				 		nueva.cantParticipantes=0;
+				
+						//Imprimimos los datos de la actividad recien ingresados
+						printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+						printf("\n %c Informacion de la actividad a registrar: \n");
+						imprimirActividad(nueva);
+						
+						printf("\n %c Ingrese 1 para confirmar el registro: ", 04); scanf("%d", &confirmar);
+						if(confirmar==1)
+						{	
+								printf("\n %c La actividad se ha registrado exitosamente...");
+								crearActividad(nueva);
+								
+						}else   printf("\n %c La actividad NO se ha registrado...");
+						
+						printf("\n\n - "); system("pause"); system("cls");
+						
+				 		autorizacion=0;
+				 		
+				 		
+					}else intentarNuevamente(autorizacion);
+				 	
+				}else intentarNuevamente(autorizacion);
+				
+			}else intentarNuevamente(autorizacion);
+			
+		}
+	}
+	
+	
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------//
+	
+	
