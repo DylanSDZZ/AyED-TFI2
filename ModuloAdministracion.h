@@ -661,13 +661,13 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 	int i=0;
 	entrenador aux;
 	
->>>>>>> Master
+
 	system("cls");	
 	
 	if(arc==NULL)
 	{
 		printf ("\nNo se pudo abrir el archivo");
->>>>>>> Master
+
 	}
 	
 	else
@@ -1216,7 +1216,7 @@ void regActividad()//Registra una actividad
 //------------------------------------------[5] SECCION PAGO AL ENTRENADOR --------------------------------------------------//
 
 
-void PagoEnt () //Realiza el calculo del pago al entrenador con respecto a la cantidad de socios que entrena
+void PagoEnt() //Realiza el calculo del pago al entrenador con respecto a la cantidad de socios que entrena
 {
 	FILE *arc;
 	int leg, ac, op = 1;
@@ -1228,8 +1228,9 @@ void PagoEnt () //Realiza el calculo del pago al entrenador con respecto a la ca
 	while(op==1)
 	{
 		ac = 0;
+		
+		printf("\n\n--------------------------%c CALCULAR PAGO ENTRENADOR %c--------------------------\n", 04, 04);
 		printf("\n %c Ingrese el legajo del entrenador: ", 04);	scanf("%d",&leg);
-		printf("\n\n");	system ("PAUSE"); system ("CLS");
 	
 		fread(&reg, sizeof(actividades), 1, arc);
 	
@@ -1245,24 +1246,23 @@ void PagoEnt () //Realiza el calculo del pago al entrenador con respecto a la ca
 				fread(&reg, sizeof(actividades), 1, arc);
 			}
 		}
-	
+		
 		if(ac == 0)
 		{
+			
 			printf("\n %c El entrenador no existe o no tiene participantes en sus actividades", 26);
-			printf("\n\n\n"); system("PAUSE"); system("CLS");
 		}
 		else
 		{
 			printf("\n %c Ingrese el valor que se debe abonar por cada socio: ", 04); scanf("%f",&val);
 	
 			pago = val * ac;
-			printf("\n %c El pago del entrenador es de: %.2f", 26, pago);
-			printf("\n\n\n"); system("PAUSE"); system("CLS");
+			printf("\n\n %c El pago del entrenador es de: %.2f \n", 26, pago);
 		}
 	
-		printf("\n %c Presione 1 si desea ingresar otro legajo: ", 04); scanf("%d",&op);
+		printf("\n\n\n %c Presione 1 si desea ingresar otro legajo: ", 04); scanf("%d",&op);
 		rewind(arc);
-		printf("\n\n\n"); system("PAUSE"); system("CLS");
+		system("CLS");
 	}
 	fclose(arc);
 }
@@ -1271,4 +1271,271 @@ void PagoEnt () //Realiza el calculo del pago al entrenador con respecto a la ca
 //---------------------------------------------------------------------------------------------------------------------------//
 
 
+
+
+//----------------------------------------------[6] SECCION MAYOR CARGA HORARIA --------------------------------------------//
+
+//[*]Funciones secundarias de las
+int legajoEntrenadores(int arrayDeLegajos[50], int arrayDeDias[50], int &i)//Recibe un array donde guardara los legajos de todos los entrenadores registrados en la base de datos
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Entrenadores.dat", "rb");
 	
+	entrenador aux;
+	i=0;
+	
+	if(archivo==NULL)//Pregunta si el archivo no se pudo abrir 
+	{
+		printf("\n %c%c No existen entrenadores registrados en la base de datos...", 33, 33);
+		fclose(archivo);
+		return 0;
+	}
+	
+	else
+	{
+		fread(&aux, sizeof(entrenador), 1, archivo);
+		if(feof(archivo)) 
+		{
+			printf("\n %c%c No existen entrenadores registrados en la base de datos...", 33, 33);
+			fclose(archivo);
+			return 0;
+			
+		}else
+			{
+				while(!feof(archivo))
+				{
+					arrayDeLegajos[i]=aux.legajo;
+					arrayDeDias[i]=aux.diasAtencion;
+					i++;
+					fread(&aux, sizeof(entrenador), 1, archivo);
+				}
+				
+				fclose(archivo);
+			}	
+	}
+	
+	fclose(archivo);
+	return 1;
+	
+	
+}
+
+
+int cargaHoraria_Entrenador(int legajo)//Recibe el legajo de un entrenador y devuelve la cantidad de turnos en los que trabaja
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Actividades.dat", "rb");
+	actividades aux; 
+	int contador=0;
+	
+	fread(&aux, sizeof(actividades), 1, archivo);
+	while(!feof(archivo))
+	{
+		if(legajo==aux.legEntrenador)
+		{	
+			contador++;
+			fread(&aux, sizeof(actividades), 1, archivo);
+		}fread(&aux, sizeof(actividades), 1, archivo);
+		
+	}
+	
+	fclose(archivo);
+	return contador;
+
+	
+
+}
+
+
+void mayorCarga_Entrenador()//Imprime el entrenador con la mayor carga horaria. 
+{
+	int arrayDeLegajos[50], arrayDeDias[50], cantidad, mayor_Carga=0, mayor_Entrenador;// Las variables "Mayor" guardan informacion sobre el entrenador con mayor carga horaria
+	int actual_Carga;
+	char nombre_Entrenador[61];
+	
+	printf("\n\n---------------------%c ENTRENADOR CON MAYOR CARGA HORARIA %c---------------------\n", 04, 04);
+	
+	if(legajoEntrenadores(arrayDeLegajos, arrayDeDias, cantidad))
+	{	
+		for(int i=0; i<cantidad; i++)
+		{
+			actual_Carga=cargaHoraria_Entrenador(arrayDeLegajos[i])*arrayDeDias[i];// La carga horaria semanal se obtiene multiplicando la cantidad de dias que trabaja, por la cantidad de actividades que posee.
+			
+			if(actual_Carga>mayor_Carga)
+			{
+				mayor_Carga=actual_Carga;
+				mayor_Entrenador=arrayDeLegajos[i];
+			}
+		}
+	}
+	buscarNombre_Entrenador(mayor_Entrenador, nombre_Entrenador);
+	printf("\n %c El entrenador con mayor carga horaria es: %s \n", 04, nombre_Entrenador);
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+//-------------------------------------------FUNCION PRINCIPAL: MODULO ADMINISTRACION----------------------------------------//
+
+//[0]Funcion para iniciar sesion
+int iniciarSesionAdmin();
+
+//[1]Funcion para registrar usuarios (Administradores o Recepcionistas)
+void regUser();
+
+//[2]Funcion para registrar entrenadores
+void regEntrenadores();
+
+//[3]Funcion para registrar actividades
+void regActividad();
+
+//[4]Funcion para calcular el pago de un entrenador
+void PagoEnt();
+
+//[5]Funcion para calcular el entrenador con mayor carga horaria
+void mayorCarga_Entrenador();
+
+
+//[*]Funciones de validacion
+int validarExistenciaArchivo()//Valida si el archivo existe, o  esta vacio o no: de esta forma, se define si hay al menos un ADMINISTRADOR registrado
+{
+	FILE *archivo;
+	archivo=fopen("../Base_de_datos/Usuarios.dat", "rb");
+	user aux;
+	
+	if(archivo==NULL)//Si no existe el archivo: lo crea, registra un administrador y luego lo cierra
+	{		
+		printf("\n\n %c%c Es necesario que cree una cuenta de ADMINISTRADOR antes de usar el sistema..", 04, 04);
+
+		archivo=fopen("../Base_de_datos/Usuarios.dat", "a+b");
+		regUser();
+		fclose(archivo);
+		return 1;
+		
+	}else//Si existe el archivo: busca un usuario tipo administrador en el, si hay por lo menos uno, cierra el archivo y devuelve 1.
+		{
+			fread(&aux, sizeof(user), 1, archivo);
+			while(!feof(archivo))
+			{
+				if(aux.tipo == 1)
+				{
+					fclose(archivo);
+					return 1;
+				}else fread(&aux, sizeof(user), 1, archivo);
+			}	
+			
+			//Si existe el archivo, pero no hay ningun administrador: registra uno y cierra el archivo
+			
+			printf("\n\n %c%c Es necesario que cree una cuenta de ADMINISTRADOR antes de usar el sistema..", 33, 33);
+			regUser();
+			fclose(archivo);
+			return 1;
+			
+		}
+	
+	
+}
+
+
+
+void moduloAdmin()//Funcion de administracion, a llamarse en el programa principal
+{
+	int x=0, autorizacion=1, reintentar=0;
+	
+
+	if(validarExistenciaArchivo())
+	{
+		if(iniciarSesionAdmin())
+		{
+			while(autorizacion==1)
+			{
+			
+				printf("\n\n---------------------------%c MENU DE ADMINISTRACION %c---------------------------\n", 04, 04);
+				printf("\n [1] - Registrar Usuarios: Administradores o Recepcionistas \n");
+				printf("\n [2] - Registrar Entrenadores \n");
+				printf("\n [3] - Registrar Actividades \n");
+				printf("\n [4] - Calcular pago de un entrenador \n");
+				printf("\n [5] - Calcular entrenador con mayor carga horaria \n");
+				printf("\n [6] - Mostrar usuarios registrados en la base de datos \n");
+				printf("\n [7] - Mostrar entrenadores registrados en la base de datos \n");
+				printf("\n [8] - Mostrar actividades registradas en la base de datos \n");
+				printf("\n [9] - Salir \n");
+				
+				
+				
+				printf("\n\n %c - Ingrese una opcion:  "); scanf("%d", &x);
+				
+				switch(x)
+				{
+					case 1:
+						regUser();
+						break;
+						
+					case 2:
+						regEntrenadores();	
+						break;
+						
+					case 3:
+						regActividad();	
+						break;	
+						
+					case 4:
+						system("CLS");
+						PagoEnt();	
+						break;	
+						
+					case 5:
+						system("CLS");
+						mayorCarga_Entrenador();
+						printf("\n\n - "); system("PAUSE"); system("CLS");	
+						break;	
+						
+					case 6:
+						mostrarUsuarios();
+						break;
+					
+					case 7:
+						mostrarEntrenadores();
+						break;
+						
+					case 8:
+						mostrarActividades();
+						break;
+						
+					case 9:
+						system("CLS");
+						autorizacion=0;
+						break;
+						
+					default: 
+						printf("\n %c Se ha ingresado una opcion incorrecta...", 33);
+						reintentar=1;	
+						printf("\n\n - "); system("PAUSE");system("CLS");
+						break;		
+				}
+				
+				if(autorizacion==1)
+				{
+					if (reintentar==0)
+					{
+						printf("\n\n-----------------------------%c ----------------- %c------------------------------\n", 04, 04);
+						printf("\n %c Ingrese [1] para volver al menu pricipal, [0] para salir: ", 27); scanf("%d", &autorizacion);
+						system("CLS");
+					}
+				}
+				reintentar=0;
+			}
+			
+		}
+	
+	}
+	
+	printf("\n\n - ");	system("pause");
+	
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------//	
