@@ -1210,4 +1210,65 @@ void regActividad()//Registra una actividad
 
 //---------------------------------------------------------------------------------------------------------------------------//
 	
+
+
+
+//------------------------------------------[5] SECCION PAGO AL ENTRENADOR --------------------------------------------------//
+
+
+void PagoEnt () //Realiza el calculo del pago al entrenador con respecto a la cantidad de socios que entrena
+{
+	FILE *arc;
+	int leg, ac, op = 1;
+	float val, pago;
+	actividades reg;
+	
+	arc = fopen ("../Base_de_datos/Actividades.dat", "rb");
+	
+	while(op==1)
+	{
+		ac = 0;
+		printf("\n %c Ingrese el legajo del entrenador: ", 04);	scanf("%d",&leg);
+		printf("\n\n");	system ("PAUSE"); system ("CLS");
+	
+		fread(&reg, sizeof(actividades), 1, arc);
+	
+		while (!feof(arc))
+		{
+			if (leg == reg.legEntrenador)
+			{
+				ac = ac + reg.cantParticipantes;
+				fread(&reg, sizeof(actividades), 1, arc);
+			}
+			else
+			{
+				fread(&reg, sizeof(actividades), 1, arc);
+			}
+		}
+	
+		if(ac == 0)
+		{
+			printf("\n %c El entrenador no existe o no tiene participantes en sus actividades", 26);
+			printf("\n\n\n"); system("PAUSE"); system("CLS");
+		}
+		else
+		{
+			printf("\n %c Ingrese el valor que se debe abonar por cada socio: ", 04); scanf("%f",&val);
+	
+			pago = val * ac;
+			printf("\n %c El pago del entrenador es de: %.2f", 26, pago);
+			printf("\n\n\n"); system("PAUSE"); system("CLS");
+		}
+	
+		printf("\n %c Presione 1 si desea ingresar otro legajo: ", 04); scanf("%d",&op);
+		rewind(arc);
+		printf("\n\n\n"); system("PAUSE"); system("CLS");
+	}
+	fclose(arc);
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------//
+
+
 	
