@@ -46,14 +46,14 @@ struct socios//Se guarda en Socios.dat
 	int   DNI;//Numero de Documento
 	int   altura;//Altura en metros
 	int   peso;//Peso en kilogramos
-	char  indicacionesMedicas;//Registra el tipo de actividad que no puede realizar el socio. Se rellena con una T en caso de que no haya restricciones. Tipo de actividad: Z: Zumba, S: Spining y P: Pilates 
+	char  indicacionesMedicas[4];//Registra el tipo de actividad que no puede realizar el socio. Tipo de actividad: Z: Zumba, S: Spining y P: Pilates 
 	fecha fec_ingreso;//Indica la fecha en que se registro el socio
 };
 
 struct rutina//Se guarda en Rutinas.dat
 {
 	int  CodRut;//Codigo Univoco de la rutina
-	char Descripcion[380];//Descripcion de la rutina en no más de 380 palabras
+	char Descripcion[2000];//Descripcion de la rutina en no más de 380 palabras
 };
 
 struct socioAct//Se guarda en Socio-Act.dat: Este archivo se usa para guardar que actividad realiza cada socio
