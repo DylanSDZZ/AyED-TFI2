@@ -60,6 +60,7 @@ struct socioAct//Se guarda en Socio-Act.dat: Este archivo se usa para guardar qu
 {
 	int  numSocio;//Numero univoco de socio
 	char cod[5];//Codigo de Actividad
+	int  legajo_Entrenador;//Numero de legajo del entrenador a cargo de la actividad elegida.
 };
 
 struct socioRut//Se guarda en Socio-Rut.dat: Este archivo se usa para guardar que rutina realiza cada socio
