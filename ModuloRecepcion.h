@@ -1,7 +1,57 @@
 //Libreria del Modulo Recepcion
 #include "Estructuras.h"
 
+void listarSocios(){
+	 socios reg;
+	 FILE *arch;
 
+		// En caso de ser otro los nombres de la estructura socios o el archivo se deberan modificar ciertas caracteristicas del codigo a continuacion
+
+	   system("cls");
+
+	   arch=fopen("PruebaSocios.dat","rb"); // Abro el archivo binario "socios.dat" que contiene los datos de los socios previamente ingresado
+	   int cont=1; // Declaro un contador para ver la cantidad de socios que se van a listar
+	   rewind(arch); // Coloco el puntero al inicio del archivo binario
+
+	   fread(&reg,sizeof(reg),1,arch);  // Doy la primera lectura dentro del archivo
+       
+       printf("\n\t\t------------%cSOCIOS REGISTRADOS%c------------\n",04,04);
+	   if(feof(arch)){
+          system("cls");
+          printf("\n\n\t\t\tEl archivo esta vacio. . ."); // En caso de que el archivo esta vacio saldra esto
+	   }else{
+	     while(!feof(arch)){
+            printf("\nSOCIO NUMERO [%d]\n",cont);  // De lo contrario imprimira los siguientes datos en pantalla
+            printf("-------------------------");
+            printf("\nNombre: %s\n",reg.nomyape);
+            printf("DNI:%d\n",reg.DNI);
+            printf("Telefono:%d\n",reg.tel);
+            printf("Direccion: %s\n",reg.direccion);
+            printf("Numero de Socio:%d\n",reg.numsocio);
+            
+            printf("\nINDICACIONES MEDICAS\n");
+            printf("Zumba:%c \n",reg.indMedicas.zum);
+            printf("Spining:%c \n",reg.indMedicas.spin);
+            printf("Pilates:%c \n\n",reg.indMedicas.pil);
+            
+           
+            
+            printf("\nFECHA DE INGRESO\n");
+            printf("Dia:%d\n",reg.fec_ingreso.dia);
+            printf("Mes:%d\n",reg.fec_ingreso.mes);
+            printf("Anio:%d\n\n",reg.fec_ingreso.anio);
+            
+            printf("-------------------------");
+            cont++; // Aumento el contador
+            fread(&reg,sizeof(reg),1,arch); // Doy la segunda lectura que determina si se repite el bucle o ese era el ultimo socio registrado
+
+	     }
+	   }
+	printf("\n\n");system("pause");
+	printf("\n\n");
+	fclose(arch); // Cierro el archivo "socios.dat"
+
+}
 
 int validarDia(int dia){
 	FILE *arch;
