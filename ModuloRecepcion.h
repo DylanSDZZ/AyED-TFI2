@@ -2,6 +2,33 @@
 #include "Estructuras.h"
 
 
+
+
+
+
+
+void MenuRecepcion(){
+	system("cls");
+	int op;
+	printf("\n\n\t\t--------------------------%c MENU DE RECEPCIONISTAS %c--------------------------\n", 04, 04);
+   
+    printf("\n\n\t\t[1].Registrar Socios.");
+    printf("\n\n\t\t[2].Listar Socios.");
+    printf("\n\n\t\t[3].Volver al Menu Principal.");
+    
+	printf("\n\n\t\t[Elija su opcion]:");
+    scanf("%d",&op);
+    
+    switch(op){
+ 	case 1: registrarSocios();
+ 		break;
+ 	case 2: listarSocios();
+ 	    break;
+ 	case 3: MenuPrincipal();
+ 	    break;
+ }
+}
+
 void SesionRecepcion(){
 	system("cls");
 	FILE *archivo;
