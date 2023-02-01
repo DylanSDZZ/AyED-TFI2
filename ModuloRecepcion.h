@@ -3,7 +3,66 @@
 
 
 
-
+int validarDia(int dia){
+	FILE *arch;
+	arch = fopen("PruebaSocios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	while(!feof(arch)){
+		if(dia<1 or dia>30){
+			fclose(arch);
+			return 0;
+		}else{
+			fread(&reg,sizeof(reg),1,arch);
+		}
+		fclose(arch);
+		return 1;
+	}
+}
+int validarMes(int mes){
+	FILE *arch;
+	arch = fopen("PruebaSocios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	while(!feof(arch)){
+	 if(mes<1 or mes>12){
+		fclose(arch);
+		return 0;
+	}else{
+		fread(&reg,sizeof(reg),1,arch);
+	}
+	fclose(arch);
+	return 1;
+	}
+	
+}
+int validarSocio(int soc){
+	FILE *arch;
+	arch = fopen("PruebaSocios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	while(feof(arch)){
+		return 1;
+	}
+	
+	while(!feof(arch)){
+		if(reg.numsocio==soc){
+			fclose(arch);
+			return 0;
+		}else{
+			fread(&reg,sizeof(reg),1,arch);
+		}
+		fclose(arch);
+		return 1;
+	}
+	
+}
 
 void registrarSocios(){
 	system("cls");
