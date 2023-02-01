@@ -5,7 +5,100 @@
 
 
 
-
+void registrarSocios(){
+	system("cls");
+	socios reg;
+	FILE *arch;
+	int b=0;
+	arch=fopen("PruebaSocios.dat","a+b");
+	
+	printf("\n\n\t\t----------------------------%c REGISTRO DE SOCIOS %c----------------------------\n", 04, 04);
+	do{
+		printf("\n\n + Nombre y Apellido: "); _flushall();
+		gets(reg.nomyape);
+		
+		printf("\n + Documento: ");
+		scanf("%d",&reg.DNI);
+		printf("\n + Direccion: "); _flushall(); gets(reg.direccion);
+		
+		printf("\n + Telefono: ");
+		scanf("%d",&reg.tel);
+		
+		printf("\n + Peso: "); scanf("%d",&reg.peso);
+		
+		do{
+		printf("\n + Numero de Socio: ");
+		scanf("%d",&reg.numsocio);
+		
+		if(!(validarSocio(reg.numsocio))){
+			printf("\n Este numero de socio ya esta ocupado, intente nuevamente. . .\n");
+		}
+		
+		}while(!(validarSocio(reg.numsocio)));
+		 
+		/* INDICACIONES MEDICAS */
+		
+		printf("\n\n -------%c INDICACIONES MEDICAS &c-------\n ",04,04);
+		
+		printf("Si esta en condiciones de realizar la actividad ingrese [S]. De lo contrario ingrese [N]");
+	    
+	    do{
+		
+		printf("\n\nZumba: ");
+		_flushall();
+		scanf("%c",&reg.indMedicas.zum);
+		if(!(validarCaracter(reg.indMedicas.zum))){
+			printf("Caracter invalido, intente nuevamente . . .\n");
+		}
+	   }while(!(validarCaracter(reg.indMedicas.zum)));
+	    
+	    do{
+		
+		printf("\nSpining: ");
+		_flushall();
+		scanf("%c",&reg.indMedicas.spin);
+		 if(!(validarCaracter(reg.indMedicas.spin))){
+			printf("Caracter invalido, intente nuevamente . . .\n");
+		 }
+	    }while(!(validarCaracter(reg.indMedicas.spin)));
+	    
+	    do{
+		
+		printf("\nPilates: ");
+		_flushall();
+		scanf("%c",&reg.indMedicas.pil);
+	      if(!(validarCaracter(reg.indMedicas.pil))){
+	      	printf("Caracter invalido, intente nuevamente . . .\n");
+		  }
+		}while(!(validarCaracter(reg.indMedicas.pil)));
+		
+		/* ----------------------------------------------------------- */
+		
+		printf("\n\n -------%c FECHA DE INGRESO &c-------\n ",04,04);
+		do{
+			printf("Dia: ");scanf("%d",&reg.fec_ingreso.dia); 
+			if(!(validarDia(reg.fec_ingreso.dia))){
+				printf("\n Este Dia es invalido, intente nuevamente. . .\n");
+			}
+		}while(!(validarDia(reg.fec_ingreso.dia)));
+	
+		
+		do{
+		 printf("\nMes: ");scanf("%d",&reg.fec_ingreso.mes);
+		  if(!(validarMes(reg.fec_ingreso.mes))){
+			 printf("\n Este mes es invalido, intente nuevamente. . .\n");
+			}
+		}while (!(validarMes(reg.fec_ingreso.mes)));
+	    
+		
+		printf("\nA%co: ",164);scanf("%d",&reg.fec_ingreso.anio);
+		
+		fwrite(&reg,sizeof(reg),1,arch);
+		printf("Si desea ingresar un nuevo socio ingrese [0] de lo contrario ingrese [1]: ");
+		scanf("%d",&b);
+		
+	}while(b==0);
+}
 
 void MenuRecepcion(){
 	system("cls");
