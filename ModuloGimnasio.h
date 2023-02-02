@@ -1,6 +1,72 @@
 //Libreria del Modulo Gimnasio
 #include "Estructuras.h"
 
+int validarCod(int codigo){
+	rutina v;
+	FILE *arch;
+
+	arch = fopen("rutinas.dat","rb");
+
+	
+	fread(&v,sizeof(v),1,arch);
+	
+	while(feof(arch)){
+		return 1;
+	}
+	
+	while(!feof(arch)){
+		if(v.CodRut==codigo){  // COMPRUEBA SI EL CODIGO GENERADO YA FUE OCUPADO EN LE ARCHIVO
+			fclose(arch);
+			return 0;
+		}else{
+			fread(&v,sizeof(v),1,arch);
+		}
+		fclose(arch);
+		return 1;
+	}
+	
+}
+
+int genCod(int num){
+	int i,x;
+	srand(time(NULL));
+	
+	do{
+		for(i=0;i<1;i++){
+			x = 1+rand()%100;
+		}
+	}while(!(validarCod(x)));
+	return x;
+}
+
+
+
+int cantidadPalabras(char *frase){
+	char caracterActual;
+	char caracterPrevio = ' ';
+	int cont=0;
+	
+	while(*frase != '\0'){
+		caracterActual = *frase;
+		
+		if(caracterActual == ' ' and caracterPrevio != ' '){
+			
+			cont++;
+		}
+		
+		caracterPrevio = caracterActual;
+		
+		frase++;
+		
+	}
+	
+	if(caracterActual != ' '){
+		cont++;
+	}
+	
+	return cont;
+}
+
 void registrarRutinas(int legajo){
 	system("cls");
 	rutina v;
