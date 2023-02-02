@@ -1,6 +1,9 @@
 //Libreria del Modulo Gimnasio
 #include "Estructuras.h"
 
+
+void menuIngreso(int legajo);
+
 void inicioSesion(){
 	system("cls");
 	FILE *archivo;
@@ -29,7 +32,7 @@ void inicioSesion(){
 		if(strcmp(USER,aux.nick) == 0 and strcmp(CLAVE,aux.pass)== 0){
 			legajo=aux.legajo; // Crea una variable a la cual se le asigna el legajo del entrenador que inicio sesion.
 			menuIngreso(legajo); // Llama a la funcion MENU mandando como dato el valor del legajo
-			b=1
+			b=1;
 		}else{
 			fread(&aux,sizeof(aux),1,archivo);
 		}
@@ -176,8 +179,8 @@ void menuIngreso(int legajo){
 		printf("\n\t\t\t[2].Registrar Rutinas.\n");
 		printf("\n\t\t\t[0].Salir.\n");
 		
-	printf("\n\n\n\t\t\t[Elija Su Opcion]:");
-	scanf("%d",&op);
+	    printf("\n\n\n\t\t\t[Elija Su Opcion]:");
+	    scanf("%d",&op);
 	
 		switch(op){
 
