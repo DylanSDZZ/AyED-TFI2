@@ -1,6 +1,60 @@
 //Libreria del Modulo Gimnasio
 #include "Estructuras.h"
 
+void registrarRutinas(int legajo){
+	system("cls");
+	rutina v;
+	FILE *rutinas;
+	b=0;
+	char res;
+	char resp;
+	int cantpalabras;
+	
+	rutinas=fopen("rutinas.dat","ab");
+	
+	do{
+		printf("\n\n--------------------------%c REGISTRO DE RUTINAS %c--------------------------\n", 04, 04);
+		_flushall();
+		v.CodRut=genCod(v.CodRut); // Aca le asigno el valor random generado a la variable CodRut
+		
+		printf("\n\n\t\t\tCodigo de Rutina:%d",v.CodRut);
+		
+		do{
+		
+		 printf("\n\t\t\tDescripcion de Rutina: ");              
+		 gets(v.Descripcion);
+	     cantpalabras=cantidadPalabras(v.Descripcion); // Llama a la funcion que va a contar la cantidad de palabras mandando como dato el string guardado en la variable
+         
+		 if(cantpalabras>360){
+         	printf("\n La rutina ingresada supera el limite de contenido, intente nuevamente . . .");
+		 }
+	   }while(cantpalabras>360);
+        
+
+	    
+		
+		fwrite(&v,sizeof(v),1,rutinas);
+		
+		
+		
+		printf("\n\n\t\t\tDesea registrar una nueva rutina? [S/N]: ");
+		_flushall();
+		scanf("%c",&res);
+		
+		if(res == 'S' or res == 's'){
+			b=0;
+		}else{
+			b=1;
+		}
+		
+		
+	}while(b==0);
+	
+	fclose(rutinas);
+	exit(1);
+	
+}
+
 void menuIngreso(int legajo){
 	entrenador aux;
 	system("cls");
