@@ -1,6 +1,49 @@
 //Libreria del Modulo Gimnasio
 #include "Estructuras.h"
 
+void inicioSesion(){
+	system("cls");
+	FILE *archivo;
+	entrenador aux;
+	int b,legajo;
+	
+	char USER[20],CLAVE[40];
+	
+	archivo=fopen("PruebaEntrenadores.dat","rb");
+	b=0;
+	
+	printf("\n\n---------------------%c INICIO DE SESION - ENTRENADORES %c---------------------\n", 04, 04);
+	
+	printf("\n %c Ingrese El nombre de usuario: ",04);
+	_flushall();
+	gets(USER);
+	printf("\n %c Ingrese la contrase%ca: ",04,164);
+	_flushall();
+	gets(CLAVE);
+	
+	
+	rewind(archivo);
+	fread(&aux,sizeof(aux),1,archivo);
+	
+	while(!feof(archivo)){
+		if(strcmp(USER,aux.nick) == 0 and strcmp(CLAVE,aux.pass)== 0){
+			legajo=aux.legajo; // Crea una variable a la cual se le asigna el legajo del entrenador que inicio sesion.
+			menuIngreso(legajo); // Llama a la funcion MENU mandando como dato el valor del legajo
+			b=1
+		}else{
+			fread(&aux,sizeof(aux),1,archivo);
+		}
+	}
+	
+	if(b==0){
+	   printf("\n\t\tUSUARIO O CLAVE INCORRECTOS.");
+       printf("\n\n");
+       system("pause");
+	}
+	
+	
+}
+
 int validarCod(int codigo){
 	rutina v;
 	FILE *arch;
