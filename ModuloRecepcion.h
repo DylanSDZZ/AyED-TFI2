@@ -53,6 +53,25 @@ void listarSocios(){
 
 }
 
+	
+int validarCaracter(char aux){
+	FILE *arch;
+	arch= fopen("Prueba.Socios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	while(!feof(arch)){
+		if(aux=='s' or aux =='S' or aux=='N' or aux=='n'){
+			return 1;
+		}else{
+			fread(&reg,sizeof(reg),1,arch);
+		}
+		fclose(arch);
+		return 0;
+	}
+}
+
 int validarDia(int dia){
 	FILE *arch;
 	arch = fopen("PruebaSocios.dat","rb");
