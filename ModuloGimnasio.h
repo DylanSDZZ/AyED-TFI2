@@ -94,7 +94,7 @@ int cantidadPalabras(char *frase){  // FUNCION QUE CUENTA LAS PALABRAS DENTRO DE
 	char caracterPrevio = ' ';
 	int cont=0;
 	
-	while(*frase != '\0'){   /
+	while(*frase != '\0'){   
 		caracterActual = *frase; 
 		
 		if(caracterActual == ' ' and caracterPrevio != ' '){ 
