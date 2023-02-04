@@ -27,7 +27,7 @@ void listarSocios(){
             printf("DNI:%d\n",reg.DNI);
             printf("Telefono:%d\n",reg.tel);
             printf("Direccion: %s\n",reg.direccion);
-            printf("Numero de Socio:%d\n",reg.numsocio);
+            printf("Numero de Socio:%d\n",reg.numSocio);
             
             printf("\nINDICACIONES MEDICAS\n");
             printf("Zumba:%c \n",reg.indMedicas.zum);
@@ -121,7 +121,7 @@ int validarSocio(int soc){
 	}
 	
 	while(!feof(arch)){
-		if(reg.numsocio==soc){
+		if(reg.numSocio==soc){
 			fclose(arch);
 			return 0;
 		}else{
@@ -255,7 +255,7 @@ void SesionRecepcion(){
 	FILE *archivo;
 	archivo = fopen("PruebaUsuarios.dat", "rb");
 	user aux;
-	int cod==1;
+	int cod=1;
 	char nick[20],contra[40];
 	
 	while(cod==1)
