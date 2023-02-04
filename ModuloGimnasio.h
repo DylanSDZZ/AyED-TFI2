@@ -1,5 +1,4 @@
 //Libreria del Modulo Gimnasio
-#include "Estructuras.h"
 
 
 void menuIngreso(int legajo);
