@@ -101,10 +101,10 @@ int validarSocio(int soc){
 		}else{
 			fread(&reg,sizeof(reg),1,arch);
 		}
-		fclose(arch);
-		return 1;
 	}
 	
+   	fclose(arch);
+	return 1;	
 }
 
 void registrarSocios(){
