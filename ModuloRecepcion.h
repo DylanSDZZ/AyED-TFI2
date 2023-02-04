@@ -156,13 +156,13 @@ void registrarSocios(){
 		
 		do{
 		printf("\n + Numero de Socio: ");
-		scanf("%d",&reg.numsocio);
+		scanf("%d",&reg.numSocio);
 		
-		if(!(validarSocio(reg.numsocio))){
+		if(!(validarSocio(reg.numSocio))){
 			printf("\n Este numero de socio ya esta ocupado, intente nuevamente. . .\n");
 		}
 		
-		}while(!(validarSocio(reg.numsocio)));
+		}while(!(validarSocio(reg.numSocio)));
 		 
 		/* INDICACIONES MEDICAS */
 		
@@ -255,7 +255,7 @@ void SesionRecepcion(){
 	FILE *archivo;
 	archivo = fopen("PruebaUsuarios.dat", "rb");
 	user aux;
-	
+	int cod==1;
 	char nick[20],contra[40];
 	
 	while(cod==1)
