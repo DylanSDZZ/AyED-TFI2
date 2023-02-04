@@ -235,7 +235,6 @@ void MenuRecepcion(){
    
     printf("\n\n\t\t[1].Registrar Socios.");
     printf("\n\n\t\t[2].Listar Socios.");
-    printf("\n\n\t\t[3].Volver al Menu Principal.");
     
 	printf("\n\n\t\t[Elija su opcion]:");
     scanf("%d",&op);
@@ -245,8 +244,7 @@ void MenuRecepcion(){
  		break;
  	case 2: listarSocios();
  	    break;
- 	case 3: MenuPrincipal();
- 	    break;
+ 	
  }
 }
 
