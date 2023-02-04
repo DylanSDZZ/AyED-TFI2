@@ -55,60 +55,34 @@ void listarSocios(){
 
 	
 int validarCaracter(char aux){
-	FILE *arch;
-	arch= fopen("Prueba.Socios.dat","rb");
-	socios reg;
 	
-	fread(&reg,sizeof(reg),1,arch);
-	
-	while(!feof(arch)){
-		if(aux=='s' or aux =='S' or aux=='N' or aux=='n'){
-			return 1;
-		}else{
-			fread(&reg,sizeof(reg),1,arch);
-		}
-		fclose(arch);
+	if(aux == 'S' or aux == 's' or aux == 'n' or aux == 'N'){
+	   return 1;	
+	}else{
 		return 0;
 	}
 }
 
 int validarDia(int dia){
-	FILE *arch;
-	arch = fopen("PruebaSocios.dat","rb");
-	socios reg;
-	
-	fread(&reg,sizeof(reg),1,arch);
-	
-	while(!feof(arch)){
-		if(dia<1 or dia>30){
-			fclose(arch);
-			return 0;
-		}else{
-			fread(&reg,sizeof(reg),1,arch);
-		}
-		fclose(arch);
-		return 1;
-	}
-}
-int validarMes(int mes){
-	FILE *arch;
-	arch = fopen("PruebaSocios.dat","rb");
-	socios reg;
-	
-	fread(&reg,sizeof(reg),1,arch);
-	
-	while(!feof(arch)){
-	 if(mes<1 or mes>12){
-		fclose(arch);
+ 
+ if(dia<1 or dia>30){
 		return 0;
 	}else{
-		fread(&reg,sizeof(reg),1,arch);
-	}
-	fclose(arch);
-	return 1;
-	}
+		return 1;
+	 }
+}
+
+int validarMes(int mes){
+	
+	if(mes<1 or mes>12){
+		return 0;
+	}else{
+		return 1;
+	 }
 	
 }
+
+
 int validarSocio(int soc){
 	FILE *arch;
 	arch = fopen("PruebaSocios.dat","rb");
