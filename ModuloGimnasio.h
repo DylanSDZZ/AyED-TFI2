@@ -119,7 +119,7 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 	system("cls");
 	rutina v; // DECLARA LA ESTRUCTURA DE RUTINAS
 	FILE *rutinas; // DECLARA EL ARCHIVO QUE VAMOS A USAR
-	b=0; // COLOCA LA BANDERA EN 0
+	int b=0; // COLOCA LA BANDERA EN 0
 	char res;
 	char resp;
 	int cantpalabras;
