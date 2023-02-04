@@ -1,5 +1,5 @@
 //Libreria del Modulo Recepcion
-#include "Estructuras.h"
+
 
 void listarSocios(){
 	 socios reg;
