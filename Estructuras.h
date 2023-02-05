@@ -36,17 +36,22 @@ struct fecha
 	int anio;
 };
 
+struct med{  
+	char zum ;
+	char spin;
+	char pil;
+};
 
 struct socios//Se guarda en Socios.dat
 {
 	char  nomyape[61];//Nombre y apellido del socio
 	char  direccion[50];//Direccion del socio
-	int   telefono;//Numero de telefono
+	int   tel;//Numero de telefono
 	int   numSocio;//Numero univoco de socio
 	int   DNI;//Numero de Documento
 	int   altura;//Altura en metros
 	int   peso;//Peso en kilogramos
-	char  indicacionesMedicas[4];//Registra el tipo de actividad que no puede realizar el socio. Tipo de actividad: Z: Zumba, S: Spining y P: Pilates 
+	med  indMedicas;//Registra el tipo de actividad que no puede realizar el socio. Se rellena con una T en caso de que no haya restricciones. Tipo de actividad: Z: Zumba, S: Spining y P: Pilates 
 	fecha fec_ingreso;//Indica la fecha en que se registro el socio
 };
 
