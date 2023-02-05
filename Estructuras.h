@@ -59,7 +59,8 @@ struct rutina//Se guarda en Rutinas.dat
 {
 	int  CodRut;//Codigo Univoco de la rutina
 	char Descripcion[2000];//Descripcion de la rutina en no más de 380 palabras
-	int  legEntrenador;//Guarda el numero de legajo del entrenador que creo la rutina
+	int  legajoEntrenador;//Guarda el numero de legajo del entrenador que creo la rutina
+	char tipo;//Tipo de actividad a la que esta dirigida la rutina
 };
 
 struct socioAct//Se guarda en Socio-Act.dat: Este archivo se usa para guardar que actividad realiza cada socio
