@@ -159,9 +159,8 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		do{
 		 printf("\n\n\t\t\tActividad Principal: "); _flushall();
 		 gets(v.tipo);
-		 validarTipo(v.tipo);
 		
-		   if(!(validarTipo(v.tipo))){
+		if(!(validarTipo(v.tipo))){
 		   	printf("\n\t\t\tActividad Invalida, intente nuevamente . . .");
 		   }
 		
