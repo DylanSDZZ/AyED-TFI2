@@ -9,17 +9,14 @@ void listarSocios(){
 
 	   system("cls");
 
-	   arch=fopen("PruebaSocios.dat","rb"); // Abro el archivo binario "socios.dat" que contiene los datos de los socios previamente ingresado
+	   arch=fopen("../Base_de_datos/Socios.dat","rb"); // Abro el archivo binario "socios.dat" que contiene los datos de los socios previamente ingresado
 	   int cont=1; // Declaro un contador para ver la cantidad de socios que se van a listar
 	   rewind(arch); // Coloco el puntero al inicio del archivo binario
 
 	   fread(&reg,sizeof(reg),1,arch);  // Doy la primera lectura dentro del archivo
        
        printf("\n\t\t------------%cSOCIOS REGISTRADOS%c------------\n",04,04);
-	   if(feof(arch)){
-          system("cls");
-          printf("\n\n\t\t\tEl archivo esta vacio. . ."); // En caso de que el archivo esta vacio saldra esto
-	   }else{
+       
 	     while(!feof(arch)){
             printf("\nSOCIO NUMERO [%d]\n",cont);  // De lo contrario imprimira los siguientes datos en pantalla
             printf("-------------------------");
@@ -46,7 +43,7 @@ void listarSocios(){
             fread(&reg,sizeof(reg),1,arch); // Doy la segunda lectura que determina si se repite el bucle o ese era el ultimo socio registrado
 
 	     }
-	   }
+	   
 	printf("\n\n");system("pause");
 	printf("\n\n");
 	fclose(arch); // Cierro el archivo "socios.dat"
@@ -85,7 +82,7 @@ int validarMes(int mes){
 
 int validarSocio(int soc){
 	FILE *arch;
-	arch = fopen("PruebaSocios.dat","rb");
+	arch = fopen("../Base_de_datos/Socios.dat","rb");
 	socios reg;
 	
 	fread(&reg,sizeof(reg),1,arch);
@@ -112,7 +109,7 @@ void registrarSocios(){
 	socios reg;
 	FILE *arch;
 	int b=0;
-	arch=fopen("PruebaSocios.dat","a+b");
+	arch=fopen("../Base_de_datos/Socios.dat","a+b");
 	
 	printf("\n\n\t\t----------------------------%c REGISTRO DE SOCIOS %c----------------------------\n", 04, 04);
 	do{
@@ -126,7 +123,7 @@ void registrarSocios(){
 		printf("\n + Telefono: ");
 		scanf("%d",&reg.tel);
 		
-		printf("\n + Peso: "); scanf("%d",&reg.peso);
+		printf("\n + Peso [KG]: "); scanf("%d",&reg.peso);
 		
 		do{
 		printf("\n + Numero de Socio: ");
@@ -140,13 +137,13 @@ void registrarSocios(){
 		 
 		/* INDICACIONES MEDICAS */
 		
-		printf("\n\n -------%c INDICACIONES MEDICAS &c-------\n ",04,04);
+		printf("\n\n -------%c INDICACIONES MEDICAS %c-------\n ",04,04);
 		
 		printf("Si esta en condiciones de realizar la actividad ingrese [S]. De lo contrario ingrese [N]");
 	    
 	    do{
 		
-		printf("\n\nZumba: ");
+		printf("\n\n + Zumba: ");
 		_flushall();
 		scanf("%c",&reg.indMedicas.zum);
 		if(!(validarCaracter(reg.indMedicas.zum))){
@@ -156,7 +153,7 @@ void registrarSocios(){
 	    
 	    do{
 		
-		printf("\nSpining: ");
+		printf("\n + Spining: ");
 		_flushall();
 		scanf("%c",&reg.indMedicas.spin);
 		 if(!(validarCaracter(reg.indMedicas.spin))){
@@ -166,7 +163,7 @@ void registrarSocios(){
 	    
 	    do{
 		
-		printf("\nPilates: ");
+		printf("\n + Pilates: ");
 		_flushall();
 		scanf("%c",&reg.indMedicas.pil);
 	      if(!(validarCaracter(reg.indMedicas.pil))){
@@ -176,9 +173,9 @@ void registrarSocios(){
 		
 		/* ----------------------------------------------------------- */
 		
-		printf("\n\n -------%c FECHA DE INGRESO &c-------\n ",04,04);
+		printf("\n\n -------%c FECHA DE INGRESO %c-------\n ",04,04);
 		do{
-			printf("Dia: ");scanf("%d",&reg.fec_ingreso.dia); 
+			printf("+ Dia: ");scanf("%d",&reg.fec_ingreso.dia); 
 			if(!(validarDia(reg.fec_ingreso.dia))){
 				printf("\n Este Dia es invalido, intente nuevamente. . .\n");
 			}
@@ -186,14 +183,14 @@ void registrarSocios(){
 	
 		
 		do{
-		 printf("\nMes: ");scanf("%d",&reg.fec_ingreso.mes);
+		 printf("\n + Mes: ");scanf("%d",&reg.fec_ingreso.mes);
 		  if(!(validarMes(reg.fec_ingreso.mes))){
 			 printf("\n Este mes es invalido, intente nuevamente. . .\n");
 			}
 		}while (!(validarMes(reg.fec_ingreso.mes)));
 	    
 		
-		printf("\nA%co: ",164);scanf("%d",&reg.fec_ingreso.anio);
+		printf("\n + A%co: ",164);scanf("%d",&reg.fec_ingreso.anio);
 		
 		fwrite(&reg,sizeof(reg),1,arch);
 		printf("Si desea ingresar un nuevo socio ingrese [0] de lo contrario ingrese [1]: ");
@@ -225,7 +222,7 @@ void MenuRecepcion(){
 void SesionRecepcion(){
 	system("cls");
 	FILE *archivo;
-	archivo = fopen("PruebaUsuarios.dat", "rb");
+	archivo = fopen("../Base_de_datos/Usuarios.dat", "rb");
 	user aux;
 	int cod=1;
 	char nick[20],contra[40];
