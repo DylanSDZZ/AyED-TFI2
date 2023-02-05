@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "Estructuras.h"
 #include "ModuloAdministracion.h"
+#include "ModuloRecepcion.h"
+#include "ModuloGimnasio.h"
 
 main()
 {	
