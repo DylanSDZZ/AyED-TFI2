@@ -31,10 +31,12 @@ main()
 				
 			case 2:
 				system("cls");
+				SesionRecepcion();
 				break;
 				
 			case 3:
 				system("cls");
+				inicioSesion();
 				break;
 				
 			default:

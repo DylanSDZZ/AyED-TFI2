@@ -111,7 +111,7 @@ void registrarSocios(){
 	int b=0;
 	arch=fopen("../Base_de_datos/Socios.dat","a+b");
 	
-	printf("\n\n\t\t----------------------------%c REGISTRO DE SOCIOS %c----------------------------\n", 04, 04);
+	printf("\n\n ----------------------------%c REGISTRO DE SOCIOS %c----------------------------\n", 04, 04);
 	do{
 		printf("\n\n + Nombre y Apellido: "); _flushall();
 		gets(reg.nomyape);
@@ -204,10 +204,10 @@ void MenuRecepcion(){
 	int op;
 	printf("\n\n\t\t--------------------------%c MENU DE RECEPCIONISTAS %c--------------------------\n", 04, 04);
    
-    printf("\n\n\t\t[1].Registrar Socios.");
-    printf("\n\n\t\t[2].Listar Socios.");
+    printf("\n\n [1].Registrar Socios.");
+    printf("\n\n [2].Listar Socios.");
     
-	printf("\n\n\t\t[Elija su opcion]:");
+	printf("\n\n [Elija su opcion]: ");
     scanf("%d",&op);
     
     switch(op){
@@ -230,7 +230,7 @@ void SesionRecepcion(){
 	while(cod==1)
 	{
 		rewind(archivo);
-		printf("\n\n\t\t---------------------%c INICIO DE SESION - RECEPCIONISTAS %c---------------------\n", 04, 04);
+		printf("\n\n---------------------%c INICIO DE SESION - RECEPCIONISTAS %c---------------------\n", 04, 04);
 		_flushall();
 		printf("\n %c Ingrese el nombre de usuario: ", 04); gets(nick);
 		printf("\n %c Ingrese la contrase%ca: ", 04, 164); gets(contra);

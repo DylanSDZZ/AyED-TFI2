@@ -1,8 +1,4 @@
 //Libreria del Modulo Gimnasio
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 void menuIngreso(int legajo);
 
@@ -20,7 +16,7 @@ void inicioSesion(){
 	
 	printf("\n\n---------------------%c INICIO DE SESION - ENTRENADORES %c---------------------\n", 04, 04);
 	
-	printf("\n %c Ingrese El nombre de usuario: ",04);
+	printf("\n %c Ingrese el nombre de usuario: ",04);
 	_flushall();
 	gets(USER);   // CONSIGUE EL NICK DEL USUARIO QUE DESEA INICIAR SESION
 	printf("\n %c Ingrese la contrase%ca: ",04,164);
@@ -69,11 +65,11 @@ int validarCod(int codigo){  // FUNCION QUE VALIDA EL CODIGO DE RUTINA
 			return 0;     // RETORNA UN 0 EN SEÑAL DE QUE NO SE PUDO REGISTRAR EL CODIGO YA QUE ESTABA OCUPADO PREVIAMENTE
 		}else{
 			fread(&v,sizeof(v),1,arch); // REALIZA LA SEGUNDA LECTURA DEL ARCHIVO
-		}
-		
-		fclose(arch); 
-		return 1; // RETORNA 1 EN SEÑAL DE QUE EL CODIGO NO FUE OCUPADO PREVIAMENTE
+		}	
 	}
+	
+	fclose(arch); 
+	return 1; // RETORNA 1 EN SEÑAL DE QUE EL CODIGO NO FUE OCUPADO PREVIAMENTE
 	
 }
 
@@ -151,17 +147,17 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		v.CodRut=genCod(v.CodRut); // SE LE ASIGNA UN VALOR GENERADO CON LA FUNCION A EL CODIGO DE RUTINA
 	    
 	    v.legajoEntrenador=legajo; // ASIGNA EL LEGAJO AL DATO DE LA ESTRUCTURA 
-		printf("\n\n\t\t\tLegajo de Entrenador: %d",v.legajoEntrenador); // IMPRIME EN PANTALLA EL LEGAJO DEL ENTRENADOR QUE INICIO SESION
+		printf("\n\n %c Legajo de Entrenador: %d", 26, v.legajoEntrenador); // IMPRIME EN PANTALLA EL LEGAJO DEL ENTRENADOR QUE INICIO SESION
 		
-		printf("\n\n\t\t\tCodigo de Rutina: %d",v.CodRut);  // LO IMPRIME EN PANTALLA
+		printf("\n\n %c Codigo de Rutina: %d", 26,v.CodRut);  // LO IMPRIME EN PANTALLA
 		
-		printf("\n\n\t\t\tTipos de Actividad - [Z]Zumba [S]Spining [P]Pilates ");
+		printf("\n\n %c Tipos de Actividad - [Z]Zumba [S]Spining [P]Pilates ", 26);
 		do{
-		 printf("\n\n\t\t\tActividad Principal: "); _flushall();
-		 gets(v.tipo);
+		 printf("\n\n %c Actividad Principal: ", 26); _flushall();
+		 scanf("%c", &v.tipo);_flushall();
 		
 		if(!(validarTipo(v.tipo))){
-		   	printf("\n\t\t\tActividad Invalida, intente nuevamente . . .");
+		   	printf("\n %c Actividad Invalida, intente nuevamente . . .", 33);
 		   }
 		
 	    }while(!(validarTipo(v.tipo)));
@@ -169,13 +165,13 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		
 		do{
 		
-		 printf("\n\t\t\tDescripcion de Rutina: ");                  
+		 printf("\n %c Descripcion de Rutina: ", 26);                  
 		 gets(v.Descripcion);
 	     cantpalabras=cantidadPalabras(v.Descripcion); // LLAMA LA FUNCION QUE CUENTA LAS PALABRAS Y LE ASIGNA EL VALOR A LA VARIABLE CANTPALABRAS
          
 		 if(cantpalabras>360){   
 		 	
-         	printf("\n La rutina ingresada supera el limite de contenido, intente nuevamente . . .");
+         	printf("\n %c La rutina ingresada supera el limite de contenido, intente nuevamente . . .", 33);
 		 }
 	    }while(cantpalabras>360); // SI LA CANTIDAD DE PALABRAS ES MAYOR A 360 VUELVE A REPETIR EL CICLO YA QUE SUPERA EL LIMITE PERMITIDO
         
@@ -185,9 +181,9 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		fwrite(&v,sizeof(v),1,rutinas); // UNA VEZ REGISTRADA LA RUTINA LA ESCRIBE EN EL ARCHIVO 
 		
 		
-		printf("\n\t\t\tRutina Registrada con exito... Legajo de Entrenador a cargo: %d",legajo); // IMPRIME EL EXITO AL REGISTRAR LA RUTINA JUNTO AL LEGAJO DEL ENTRENADOR QUE LA INGRESO
-		printf("\n\t\t\t");system("pause");
-		printf("\n\n\t\t\tDesea registrar una nueva rutina? [S/N]: ");
+		printf("\n\n %c Rutina Registrada con exito...", 33); // IMPRIME EL EXITO AL REGISTRAR LA RUTINA JUNTO AL LEGAJO DEL ENTRENADOR QUE LA INGRESO
+		printf("\n\n\n - ");system("pause");
+		printf("\n\n %c Desea registrar una nueva rutina? [S/N]: ", 04);
 		_flushall();
 		scanf("%c",&res);
 		
@@ -212,11 +208,11 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 	
 	printf("\n\n--------------------------%c MENU DE ENTRENADORES %c--------------------------\n", 04, 04);
 	
-		printf("\n\t\t\t[1].Listar Socios.\n");
-		printf("\n\t\t\t[2].Registrar Rutinas.\n");
-		printf("\n\t\t\t[0].Salir.\n");
+		printf("\n [1].Listar Socios.\n");
+		printf("\n [2].Registrar Rutinas.\n");
+		printf("\n [0].Salir.\n");
 		
-	    printf("\n\n\n\t\t\t[Elija Su Opcion]:");
+	    printf("\n\n\n [Elija Su Opcion]: ");
 	    scanf("%d",&op);
 	
 		switch(op){
@@ -230,21 +226,22 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 				break;
 			case 0: 
 			     system("cls");
+			     exit(1);
 			     break;
 
 			default:
 				system("cls");
-				printf("\n\n\n\t\t\t[Opcion Invalida. . .]");
+				printf("\n\n\n [Opcion Invalida. . .]");
 				printf("\n\n");
 				printf("\t\t");system("pause"); printf("\n\n");
-				printf("\t\t\tDesea regresar al Menu? [S/N]: ");
+				printf(" Desea regresar al Menu? [S/N]: ");
 				_flushall();
 				scanf("%c",&res);
 
 				if(res == 'S' or res == 's'){
 				  menuIngreso(legajo);
 				}else{
-					printf("\n\n\t\t");system("pause");
+					printf("\n\n");system("pause");
 					exit(1);
 				}
 				break;
