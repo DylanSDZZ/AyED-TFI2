@@ -1,5 +1,8 @@
 //Libreria del Modulo Gimnasio
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 void menuIngreso(int legajo);
 
@@ -129,8 +132,11 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		printf("\n\n--------------------------%c REGISTRO DE RUTINAS %c--------------------------\n", 04, 04);
 		_flushall();
 		v.CodRut=genCod(v.CodRut); // SE LE ASIGNA UN VALOR GENERADO CON LA FUNCION A EL CODIGO DE RUTINA
+	    
+	    V.legEntrenador=legajo; // ASIGNA EL LEGAJO AL DATO DE LA ESTRUCTURA 
+		printf("\n\n\t\t\tLegajo de Entrenador: %d",v.legEntrenador); // IMPRIME EN PANTALLA EL LEGAJO DEL ENTRENADOR QUE INICIO SESION
 		
-		printf("\n\n\t\t\tCodigo de Rutina:%d",v.CodRut);  // LO IMPRIME EN PANTALLA
+		printf("\n\n\t\t\tCodigo de Rutina: %d",v.CodRut);  // LO IMPRIME EN PANTALLA
 		
 		do{
 		
