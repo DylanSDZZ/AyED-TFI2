@@ -15,7 +15,7 @@ void inicioSesion(){
 	
 	char USER[20],CLAVE[40];   // VARIABLES DONDE SE GUARDARAN LOS DATOS INGRESADOS PARA EL INICIO DE SESION
 	
-	archivo=fopen("PruebaEntrenadores.dat","rb");   // ABRE EL ARCHIVO DONDE SE GUARDAN LOS DATOS DE LOS USUARIOS DE ENTRENADORES
+	archivo=fopen("../Base_de_datos/Entrenadores.dat","rb");   // ABRE EL ARCHIVO DONDE SE GUARDAN LOS DATOS DE LOS USUARIOS DE ENTRENADORES
 	b=0;
 	
 	printf("\n\n---------------------%c INICIO DE SESION - ENTRENADORES %c---------------------\n", 04, 04);
@@ -54,7 +54,7 @@ int validarCod(int codigo){  // FUNCION QUE VALIDA EL CODIGO DE RUTINA
 	rutina v;   // DECLARA EL TIPO DE DATO ESTRUCTURADO RUTINA
 	FILE *arch; // DECLARA UN ARCHIVO CON EL CUAL VAMOS  A TRABAJAR
  
-	arch = fopen("rutinas.dat","rb");  // ABRE EL ARCHIVO EN MODO LECTURA
+	arch = fopen("../Base_de_datos/Rutinas.dat","rb");  // ABRE EL ARCHIVO EN MODO LECTURA
 
 	
 	fread(&v,sizeof(v),1,arch);  // REALIZA LA PRIMERA LECTURA DEL CICLO
@@ -143,7 +143,7 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 	char resp;
 	int cantpalabras;
 	
-	rutinas=fopen("rutinas.dat","ab");  // ABRE EL ARCHIVO 
+	rutinas=fopen("../Base_de_datos/Rutinas.dat","ab");  // ABRE EL ARCHIVO 
 	
 	do{
 		printf("\n\n--------------------------%c REGISTRO DE RUTINAS %c--------------------------\n", 04, 04);
