@@ -117,6 +117,23 @@ int cantidadPalabras(char *frase){  // FUNCION QUE CUENTA LAS PALABRAS DENTRO DE
 	return cont; // RETORNA LA CANTIDAD DE PALABRAS 
 }
 
+
+
+int validarTipo(char act){
+	
+   if(act == 'Z' or act == 'P' or act == 'S' or act == 'z' or act == 'p' or act == 's'){
+   	 return 1;
+   }else{
+   	return 0;
+   }
+	
+	
+}
+
+
+
+
+
 void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS 
 	system("cls");
 	rutina v; // DECLARA LA ESTRUCTURA DE RUTINAS
@@ -137,6 +154,19 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		printf("\n\n\t\t\tLegajo de Entrenador: %d",v.legEntrenador); // IMPRIME EN PANTALLA EL LEGAJO DEL ENTRENADOR QUE INICIO SESION
 		
 		printf("\n\n\t\t\tCodigo de Rutina: %d",v.CodRut);  // LO IMPRIME EN PANTALLA
+		
+		printf("\n\n\t\t\tTipos de Actividad - [Z]Zumba [S]Spining [P]Pilates ");
+		do{
+		 printf("\n\n\t\t\tActividad Principal: "); _flushall();
+		 gets(v.tipo);
+		 validarTipo(v.tipo);
+		
+		   if(!(validarTipo(v.tipo))){
+		   	printf("\n\t\t\tActividad Invalida, intente nuevamente . . .");
+		   }
+		
+	    }while(!(validarTipo(v.tipo)));
+		
 		
 		do{
 		
