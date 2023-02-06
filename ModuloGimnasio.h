@@ -253,3 +253,78 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 	
 }
 
+
+//---------------------------------------SECCION LISTAR SOCIOS DEL ENTRENADOR Y ACTIVIDAD QUE REALIZA--------------------------------------------//
+
+
+int buscarNombre_Socio (int numeroSocio) //Realiza la busqueda del nombre y lo imprime
+{
+	FILE *arc;
+	socios reg;
+	
+	arc = fopen ("../Base_de_datos/Socios.dat", "rb");
+	
+	printf("\n\n-------------------------------%c SOCIOS INSCRIPTOS A MIS ACTIVIDADES%c-------------------------------\n", 04, 04);
+
+	
+	fread(&reg, sizeof(socios), 1, arc);
+	
+	while (!feof (arc))
+	{
+		if (numeroSocio == reg.numSocio)
+		{
+			_flushall();
+			printf("\n %c Nombre del socio: %s\n", 04, reg.nomyape);
+			fclose(arc);
+			return 1;
+		}
+		else
+		{
+			fread(&reg, sizeof(socios), 1, arc);
+		}
+	}
+	fclose(arc);
+	return 0;
+}
+
+void socios_A_Cargo(int legajo_Entre) //Imprime el nombre del socio y la actividad que realiza el entrenador
+{
+	FILE *arc;
+	socioAct reg;
+	
+	arc = fopen ("../Base_de_datos/Socio-Act.dat", "rb");
+	
+	fread(&reg, sizeof(socioAct), 1, arc);
+	
+	while(!feof(arc))
+	{
+		if(legajo_Entre == reg.legajo_Entrenador)
+		{
+			buscarNombre_Socio(reg.numSocio);
+
+			if(reg.cod[0] == 'Z')
+			{
+				printf("\n %c Tipo de actividad: ZUMBA", 26);
+				printf("\n\n\n"); system("PAUSE"); system("CLS");
+			}
+			if(reg.cod[0] == 'S')
+			{
+				printf("\n %c Tipo de actividad: SPINNING", 26);
+				printf("\n\n\n"); system("PAUSE"); system("CLS");
+			}
+			if(reg.cod[0] == 'P')
+			{
+				printf("\n %c Tipo de actividad: PILATES", 26);
+				printf("\n\n\n"); system("PAUSE"); system("CLS");
+			}
+			fread(&reg, sizeof(socioAct), 1, arc);
+		}
+		else
+		{
+			fread(&reg, sizeof(socioAct), 1, arc);	
+		}
+	}
+	fclose(arc);
+}
+
+//---------------------------------------------------------------------------------------------------------------------------//
