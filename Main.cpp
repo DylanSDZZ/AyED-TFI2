@@ -14,7 +14,6 @@ inline void setFontSize(int a, int b);
 
 main()
 {	
-
 	system ("mode con cols=80");
 	system("COLOR 0C");
 	SetConsoleTitle("GYMSIS 1.0"); 

@@ -15,30 +15,31 @@ void listarSocios(){
 
 	   fread(&reg,sizeof(reg),1,arch);  // Doy la primera lectura dentro del archivo
        
-       printf("\n\t\t------------%cSOCIOS REGISTRADOS%c------------\n",04,04);
+     	printf("\n\n-----------------------------%c SOCIOS REGISTRADOS %c-----------------------------\n", 04, 04);
        
 	     while(!feof(arch)){
-            printf("\nSOCIO NUMERO [%d]\n",cont);  // De lo contrario imprimira los siguientes datos en pantalla
-            printf("-------------------------");
-            printf("\nNombre: %s\n",reg.nomyape);
-            printf("DNI:%d\n",reg.DNI);
-            printf("Telefono:%d\n",reg.tel);
-            printf("Direccion: %s\n",reg.direccion);
-            printf("Numero de Socio:%d\n",reg.numSocio);
+	     	printf("-------------------------");
+            printf("\n     SOCIO NUMERO [%d]\n",cont);  // De lo contrario imprimira los siguientes datos en pantalla
+            printf("-------------------------\n");
+            printf("\n %c Nombre: %s\n",26,reg.nomyape);
+            printf(" %c DNI:%d\n",26 ,reg.DNI);
+            printf(" %c Telefono:%d\n",26,reg.tel);
+            printf(" %c Direccion: %s\n",26,reg.direccion);
+            printf(" %c Numero de Socio:%d\n\n",26,reg.numSocio);
             
-            printf("\nINDICACIONES MEDICAS\n");
-            printf("Zumba:%c \n",reg.indMedicas.zum);
-            printf("Spining:%c \n",reg.indMedicas.spin);
-            printf("Pilates:%c \n\n",reg.indMedicas.pil);
+            printf("\n %c INDICACIONES MEDICAS\n\n", 04);
+            printf(" %c Zumba:%c \n", 04,reg.indMedicas.zum);
+            printf(" %c Spining:%c \n", 04,reg.indMedicas.spin);
+            printf(" %c Pilates:%c \n\n", 04,reg.indMedicas.pil);
             
            
             
-            printf("\nFECHA DE INGRESO\n");
-            printf("Dia:%d\n",reg.fec_ingreso.dia);
-            printf("Mes:%d\n",reg.fec_ingreso.mes);
-            printf("Anio:%d\n\n",reg.fec_ingreso.anio);
+            printf("\n %c FECHA DE INGRESO\n\n", 254 );
+            printf(" %c Dia:%d\n", 254, reg.fec_ingreso.dia);
+            printf(" %c Mes:%d\n", 254,reg.fec_ingreso.mes);
+            printf(" %c A%co:%d\n\n", 254, 164, reg.fec_ingreso.anio);
             
-            printf("-------------------------");
+            printf("\n\n---------------------------- %c ------------------ %c ----------------------------\n", 04, 04);
             cont++; // Aumento el contador
             fread(&reg,sizeof(reg),1,arch); // Doy la segunda lectura que determina si se repite el bucle o ese era el ultimo socio registrado
 
@@ -118,8 +119,8 @@ void registrarSocios()
 	int b=0, cod=1;
 	arch=fopen("../Base_de_datos/Socios.dat","a+b");
 	
-	printf("\n\n-----------------------------%c REGISTRO DE SOCIOS %c-----------------------------\n", 04, 04);
 	do{
+		printf("\n\n-----------------------------%c REGISTRO DE SOCIOS %c-----------------------------\n", 04, 04);
 		printf("\n + Nombre y Apellido: "); _flushall();
 		gets(reg.nomyape);
 		
@@ -217,9 +218,17 @@ void registrarSocios()
 		fwrite(&reg,sizeof(reg),1,arch);
 		printf("\n\n\n %c Si desea ingresar un nuevo socio ingrese [0] de lo contrario ingrese [1]: ", 26);
 		scanf("%d",&b);
+		system("cls");
 		
 	}while(b==0);
 }
+
+//------------------------------------------------------- MENU PRINCIPAL -------------------------------------------------------------------//
+
+void registrarActividad_Socio();
+void imprimirFechasDePago_Socios();
+int registrarSocio_Rutina();
+void mostrarRutinasDeSocios();
 
 void MenuRecepcion(){
 	system("cls");
@@ -228,34 +237,60 @@ void MenuRecepcion(){
    
     printf("\n [1].Registrar Socios. ");
     printf("\n\n [2].Listar Socios. ");
+    printf("\n\n [3].Registrar Socio en una Actividad. ");
+    printf("\n\n [4].Fecha de Pago Socios. ");
+    printf("\n\n [5].Agregar una Rutina a un Socio. ");
+    printf("\n\n [6].Mostrar rutinas de los socios. ");
+    
+    printf("\n\n [0].Salir. ");
     
 	printf("\n\n\n\n [Elija su opcion]: ");
     scanf("%d",&op);
     
     switch(op){
+    	
+    case 0: system("cls"); exit(1);	
+    	
  	case 1: registrarSocios();
  		break;
+ 		
  	case 2: listarSocios();
  	    break;
+ 	    
+ 	case 3: registrarActividad_Socio();
+ 		break;
+ 		
+ 	case 4: imprimirFechasDePago_Socios();
+ 		break;
+ 		
+ 	case 5: registrarSocio_Rutina();
+	 	break;	
+	 	
+	case 6: mostrarRutinasDeSocios();
+		break;
  	
  }
 }
+
 
 void SesionRecepcion(){
 	system("cls");
 	FILE *archivo;
 	archivo = fopen("../Base_de_datos/Usuarios.dat", "rb");
 	user aux;
-	int cod=1;
+	int cod=1, athu=0;
 	char nick[20],contra[40];
 	
 	while(cod==1)
 	{
-		rewind(archivo);
-		printf("\n\n----------------------%c INICIO DE SESION - RECEPCIONISTAS %c---------------------\n", 04, 04);
-		_flushall();
-		printf("\n %c Ingrese el nombre de usuario: ", 04); gets(nick);
-		printf("\n %c Ingrese la contrase%ca: ", 04, 164); gets(contra);
+		if(athu==0)
+		{
+			rewind(archivo);
+			printf("\n\n----------------------%c INICIO DE SESION - RECEPCIONISTAS %c---------------------\n", 04, 04);
+			_flushall();
+			printf("\n %c Ingrese el nombre de usuario: ", 04); gets(nick);
+			printf("\n %c Ingrese la contrase%ca: ", 04, 164); gets(contra);	
+		}
 
 		fread(&aux, sizeof(user), 1, archivo);
 		while(!feof(archivo))
@@ -265,15 +300,20 @@ void SesionRecepcion(){
 			{
 				fclose(archivo);
 				printf("\n\n %c%c Presione una tecla para ingresar al sistema...", 33, 33); getchar(); system("CLS");
+				athu=1;
 				MenuRecepcion();//Retorna 1 en caso de que haya coincidencia con la base de datos
 			}
 			else fread(&aux, sizeof(aux), 1, archivo);
 
 		}
-
-		printf("\n %c%c Nombre de usuario y/o contrase%ca INCORRECTOS\n\n", 33, 33, 164);
-		printf("\n\n %c Ingrese 1 si quiere intentar nuevamente, o ingrese  0 para salir: ", 04); scanf("%d", &cod);
-		system("CLS");
+		
+		if(athu==0)
+		{
+			printf("\n %c%c Nombre de usuario y/o contrase%ca INCORRECTOS\n\n", 33, 33, 164);
+			printf("\n\n %c Ingrese 1 si quiere intentar nuevamente, o ingrese  0 para salir: ", 04); scanf("%d", &cod);
+			system("CLS");	
+		}
+		
 
 	 }
     
@@ -290,7 +330,7 @@ void SesionRecepcion(){
 
 //--------------------------------------------------- SECCION REGISTRAR SOCIO EN UNA RUTINA --------------------------------------------------//
 
-int validarSocios1(int soc) // Determina si un numero de socio esta registrado- HAY QUE BORRAR ESTA FUNCION
+int validarSocios1(int soc) // Determina si un numero de socio esta registrado
 {
 	FILE *arch;
 	arch = fopen("../Base_de_datos/Socios.dat","rb");
@@ -514,7 +554,7 @@ int registrarSocio_Rutina() // Registra una rutina para el socio
 	do
 	{
 		system("cls");
-		printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+		printf("\n\n-------------------------%c REGISTRAR RUTINA DE SOCIO %c--------------------------\n", 04, 04);
 		
 		
 		printf("\n %c Ingrese el numero de socio a registrar: ", 04); scanf("%d", &numAux);
@@ -535,7 +575,7 @@ int registrarSocio_Rutina() // Registra una rutina para el socio
 						nuevo.CodRut=rut;
 						
 						system("cls");
-						printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+							printf("\n\n-------------------------%c REGISTRAR RUTINA DE SOCIO %c--------------------------\n", 04, 04);
 						printf("\n %c Informacion ingresada: \n", 04);
 						printf("\n %c Numero de socio: %d \n", 04, nuevo.numSocio);
 						printf("\n %c Codigo de la rutina: %d \n", 04, nuevo.CodRut);
@@ -595,9 +635,9 @@ int comprobarActividad_Socio(char tipo, int numSocio) //Comprueba si el socio pu
 	{
 		if(reg.numSocio==numSocio)
 		{
-			if(tipo=='Z')
+			if(tipo=='Z' or tipo=='z')
 			{	
-				if(reg.indMedicas.zum=='S')
+				if(reg.indMedicas.zum=='S' or reg.indMedicas.zum=='s')
 				{
 					fclose(arch);
 					return 1;
@@ -610,9 +650,9 @@ int comprobarActividad_Socio(char tipo, int numSocio) //Comprueba si el socio pu
 			}	
 			
 			
-			if(tipo=='P')
+			if(tipo=='P' or tipo=='p')
 			{	
-				if(reg.indMedicas.pil=='S')
+				if(reg.indMedicas.pil=='S' or reg.indMedicas.pil=='s')
 				{
 					fclose(arch);
 					return 1;
@@ -625,9 +665,9 @@ int comprobarActividad_Socio(char tipo, int numSocio) //Comprueba si el socio pu
 			}	
 			
 			
-			if(tipo=='S')
+			if(tipo=='S' or tipo=='s')
 			{	
-				if(reg.indMedicas.spin=='S')
+				if(reg.indMedicas.spin=='S' or reg.indMedicas.spin=='s')
 				{
 					fclose(arch);
 					return 1;
@@ -972,7 +1012,7 @@ void registrarActividad_Socio()
 	char tipoAux;
 	socioAct nuevo;
 	
-	
+	system("cls");
 	printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
 	
 	printf("\n %c Ingrese el numero de socio a registrar: ", 04); scanf("%d", &numAux);
@@ -1018,25 +1058,29 @@ void registrarActividad_Socio()
 								aumentarSocios_Actividad(nuevo.cod);
 								crearSocioAct(nuevo);
 								
-							}else printf("\n\n %c No se ha completado el registro...", 33);
+							}else {printf("\n\n %c No se ha completado el registro...", 33); printf("\n\n\n - "); system("pause"); system("cls");}
 							
 							
 							
-						}else printf("\n %c El socio ya se encuentra inscripto en este turno...\n\n", 33);
+						}else {printf("\n %c El socio ya se encuentra inscripto en este turno...\n\n", 33);printf("\n\n\n - "); system("pause"); system("cls");}
 						
 					}
 					
-				}
+				}else {printf("\n\n\n - "); system("pause"); system("cls"); exit(1);}
 				
 				
-			}else printf("\n %c El socio no puede realizar esta actividad por orden medica...\n\n", 33);
+			}else {printf("\n %c El socio no puede realizar esta actividad por orden medica...\n\n", 33);  printf("\n\n\n - "); system("pause"); system("cls");}
 		}
 		
-	}else printf("\n\n %c El numero de socio no se encuentra registrado...\n\n", 33);
+	}else
+	{
+		printf("\n\n %c El numero de socio no se encuentra registrado...\n", 33); printf("\n\n\n - "); system("pause"); system("cls");
+	} 
 
 
 	
 }
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -1067,7 +1111,7 @@ void calcularFechaDePago_Socio(fecha aux, char nomyape[61], int numSocio)
 		anio++;
 	}
 	printf("\n %c Numero de socio: %d \n\n %c Nombre del socio: %s \n",04, numSocio, 04, nomyape);
-	printf("\n %c La fecha de pago del socio  es : %d-%d-%d", 04, dia, mes, anio);
+	printf("\n %c La fecha de pago del socio  es : %d-%d-%d\n", 04, dia, mes, anio);
 	printf("\n---------------------%c ---------------------------------- %c---------------------", 04, 04);
 	
 	
@@ -1078,6 +1122,8 @@ void imprimirFechasDePago_Socios()
 	FILE *arch;
 	arch = fopen("../Base_de_datos/Socios.dat","rb");
 	socios reg;
+	
+	system("cls");
 	
 	fread(&reg, sizeof(reg), 1, arch);
 	
@@ -1099,6 +1145,8 @@ void imprimirFechasDePago_Socios()
 	}
 	
 	fclose(arch);
+	
+	printf("\n\n - ");	system("pause"); system("cls");
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------//
