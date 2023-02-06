@@ -532,10 +532,6 @@ void mostrarUsuarios()//Muestra los usuarios guardados en Usuarios.dat
 	}
 	
 	fclose(arc);
-
-	printf("\n\n");
-	system("PAUSE");
-	system("CLS");
 }
 //---------------------------------------------------------------------------------------------------------------------------//
 
@@ -696,9 +692,6 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 	}
 	
 	fclose(arc);
-	printf("\n\n");
-	system("PAUSE");
-	system("CLS");
 }
 
 
@@ -767,7 +760,6 @@ void regEntrenadores()//Funcion para registrar Entrenadores
 		
 	}else printf("\n\n %c%c El usuario NO ha sido registrado...\n", 33, 33);
 	
-	printf("\n\n\n - "); system("pause"); system("cls");
 	
 
 }
@@ -1000,14 +992,10 @@ int entrenadorDisponible(int legajo_entrenador, int  turno, char tipo)//Se valid
 
 void generarCodigo_Actividad(int horario, char tipo, char cod[5])
 {
-	char inicial[2], numero[2];
-	inicial[0]=tipo;
-	inicial[1]='\0';
-	
-	sprintf(numero, "%d", horario);
-	
-	strcat(inicial, numero);
-	strcpy(cod, inicial);
+	char hora=horario+48;
+	cod[0]=tipo;
+	cod[1]=hora;
+	cod[2]='\0';
 }
 
 	//[*]Funcion de manipulacion de archivos
@@ -1190,7 +1178,6 @@ void regActividad()//Registra una actividad
 								
 						}else   printf("\n %c La actividad NO se ha registrado...");
 						
-						printf("\n\n - "); system("pause"); system("cls");
 						
 				 		autorizacion=0;
 				 		
@@ -1228,6 +1215,7 @@ void PagoEnt() //Realiza el calculo del pago al entrenador con respecto a la can
 	while(op==1)
 	{
 		ac = 0;
+		system("CLS");
 		
 		printf("\n\n--------------------------%c CALCULAR PAGO ENTRENADOR %c--------------------------\n", 04, 04);
 		printf("\n %c Ingrese el legajo del entrenador: ", 04);	scanf("%d",&leg);
@@ -1262,7 +1250,7 @@ void PagoEnt() //Realiza el calculo del pago al entrenador con respecto a la can
 	
 		printf("\n\n\n %c Presione 1 si desea ingresar otro legajo: ", 04); scanf("%d",&op);
 		rewind(arc);
-		system("CLS");
+		
 	}
 	fclose(arc);
 }
@@ -1489,8 +1477,7 @@ void moduloAdmin()//Funcion de administracion, a llamarse en el programa princip
 						
 					case 5:
 						system("CLS");
-						mayorCarga_Entrenador();
-						printf("\n\n - "); system("PAUSE"); system("CLS");	
+						mayorCarga_Entrenador();	
 						break;	
 						
 					case 6:
@@ -1521,8 +1508,7 @@ void moduloAdmin()//Funcion de administracion, a llamarse en el programa princip
 				{
 					if (reintentar==0)
 					{
-						printf("\n\n-----------------------------%c ----------------- %c------------------------------\n", 04, 04);
-						printf("\n %c Ingrese [1] para volver al menu pricipal, [0] para salir: ", 27); scanf("%d", &autorizacion);
+						printf("\n\n\n %c Ingrese [1] para volver al menu pricipal, [0] para salir: ", 26); scanf("%d", &autorizacion);
 						system("CLS");
 					}
 				}
