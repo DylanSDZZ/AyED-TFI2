@@ -508,7 +508,7 @@ void mostrarUsuarios()//Muestra los usuarios guardados en Usuarios.dat
 	
 	else
 	{
-		printf("\n------------%cUSUARIOS REGISTRADOS%c------------\n",04,04);
+		printf("\n--------------------------- %c USUARIOS REGISTRADOS %c ---------------------------\n",04,04);
 	
 		fread(&aux,sizeof(user),1, arc);	
 		while(!feof(arc))
@@ -523,7 +523,7 @@ void mostrarUsuarios()//Muestra los usuarios guardados en Usuarios.dat
 			
 			printf("\n %c Contrase%ca de usuario: %s \n", 04, 164, aux.pass);
 			
-			printf("\n------------%c ------------------ %c------------\n",04,04);
+			printf("\n-------------------------- %c ----------------------- %c -------------------------\n",04,04);
 			
 			fread(&aux,sizeof(user),1, arc);	
 		} 
@@ -668,7 +668,7 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 	
 	else
 	{
-		printf("\n------------%cENTRENADORES REGISTRADOS%c------------\n",04,04);
+			printf("\n------------------------- %c ENTRENADORES REGISTRADOS %c -------------------------\n",04,04);
 	
 		fread(&aux,sizeof(aux),1, arc);	
 		while(!feof(arc))
@@ -683,7 +683,7 @@ void mostrarEntrenadores()//Muestra los Entrenadores guardados en Entrenadores.d
 			
 			printf("\n %c Contrase%ca de usuario: %s \n", 04, 164, aux.pass);
 			
-			printf("\n------------%c ------------------ %c------------\n",04,04);
+				printf("\n-------------------------- %c ---------------------- %c --------------------------\n",04,04);
 			
 			fread(&aux,sizeof(aux),1, arc);	
 		} 
@@ -777,7 +777,7 @@ int ingresarTipo_Actividad(char &tipo)//Se ingresa y se valida que el tipo de ac
 {
 	char aux;
 	//Se ingresa el caracter que representa al tipo de actividad
-	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c-------------------------\n", 04, 04);
+	printf("\n\n---------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
 	printf("\n %c TIPOS DE ACTIVIDAD: \n\n		%c [Z]: Zumba	%c [S]: Spining	%c [P]: Pilates \n", 26, 04, 04, 04);
 	do
 	{
@@ -835,7 +835,7 @@ int disponibilidadHoraria(char tipo_actividad, int &turno)//Se ingresa y se cons
 		suma+=array[i];
 	}
 	 
-	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+	printf("\n\n---------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
 	
 	if(suma<6 and suma>=0)
 	{
@@ -913,7 +913,7 @@ int existenciaEntrenador(int &legajo_entrenador)//Se valida que el entrenador ex
 	entrenador entrena_auxiliar;
 	int legajo_auxiliar, permiso=1;
 	
-	printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+	printf("\n\n---------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
 
 	
 	while(permiso==1)
@@ -1166,7 +1166,7 @@ void regActividad()//Registra una actividad
 				 		nueva.cantParticipantes=0;
 				
 						//Imprimimos los datos de la actividad recien ingresados
-						printf("\n\n--------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
+						printf("\n\n---------------------------%c REGISTRO DE ACTIVIDADES %c--------------------------\n", 04, 04);
 						printf("\n %c Informacion de la actividad a registrar: \n");
 						imprimirActividad(nueva);
 						
@@ -1366,7 +1366,7 @@ void mayorCarga_Entrenador()//Imprime el entrenador con la mayor carga horaria.
 
 
 
-//-------------------------------------------FUNCION PRINCIPAL: MODULO ADMINISTRACION----------------------------------------//
+//--------------------------------------------FUNCION PRINCIPAL: MODULO ADMINISTRACION-----------------------------------------//
 
 //[0]Funcion para iniciar sesion
 int iniciarSesionAdmin();

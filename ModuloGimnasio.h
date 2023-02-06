@@ -182,8 +182,7 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 		
 		
 		printf("\n\n %c Rutina Registrada con exito...", 33); // IMPRIME EL EXITO AL REGISTRAR LA RUTINA JUNTO AL LEGAJO DEL ENTRENADOR QUE LA INGRESO
-		printf("\n\n\n - ");system("pause");
-		printf("\n\n %c Desea registrar una nueva rutina? [S/N]: ", 04);
+		printf("\n\n\n %c Desea registrar una nueva rutina? [S/N]: ", 04);
 		_flushall();
 		scanf("%c",&res);
 		
@@ -196,7 +195,6 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 	}while(b==0);
 	
 	fclose(rutinas);
-	exit(1);
 	
 }
 
@@ -222,7 +220,10 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 				break;
 
 			case 2:
-				  registrarRutinas(legajo); // ENVIA EL NUMERO DE LEGAJO DEL ENTRENADOR A LA FUNCION REGISTRAR RUTINA 
+				registrarRutinas(legajo); // ENVIA EL NUMERO DE LEGAJO DEL ENTRENADOR A LA FUNCION REGISTRAR RUTINA 
+				printf("\n\n\n\t\t      Desea regresar al Menu? [S/N]: ");
+				_flushall();
+				scanf("%c",&res); 
 				break;
 			case 0: 
 			     system("cls");
@@ -231,7 +232,7 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 
 			default:
 				system("cls");
-				printf("\n\n\n [Opcion Invalida. . .]");
+				printf("\n\n [Opcion Invalida. . .]");
 				printf("\n\n");
 				printf("\t\t");system("pause"); printf("\n\n");
 				printf(" Desea regresar al Menu? [S/N]: ");
@@ -245,8 +246,15 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 					exit(1);
 				}
 				break;
-
-
+		}
+		
+		if(res == 'S' or res == 's')
+		{
+		  	menuIngreso(legajo);
+		}
+		{
+			printf("\n\n");system("pause");
+			exit(1);
 		}
 	
 	

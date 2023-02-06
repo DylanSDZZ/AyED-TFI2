@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
+#include <wincon.h>
 #include "Estructuras.h"
 #include "ModuloAdministracion.h"
 #include "ModuloRecepcion.h"
@@ -9,13 +11,18 @@
 
 main()
 {	
+
+	system ("mode con cols=80");
+	system("COLOR 0C");
+	SetConsoleTitle("GYMSIS 1.0"); 
+	
 	int x=0, autorizacion=1;
 	
 	while(autorizacion==1)
 	{
 		autorizacion=0;
 		
-		printf("\n\n---------------------%c SISTEMA DE GESTION: GYMSIS 1.0 %c---------------------\n", 04, 04);
+		printf("\n\n-----------------------%c SISTEMA DE GESTION: GYMSIS 1.0 %c-----------------------\n", 04, 04);
 		printf("\n [1] - Modulo de Administracion \n");
 		printf("\n [2] - Modulo de Recepcion \n");
 		printf("\n [3] - Modulo Gym \n");
