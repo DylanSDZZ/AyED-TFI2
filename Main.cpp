@@ -14,11 +14,10 @@ inline void setFontSize(int a, int b);
 
 main()
 {	
-
 	system ("mode con cols=80");
 	system("COLOR 0C");
 	SetConsoleTitle("GYMSIS 1.0"); 
-	setFontSize(13,21);
+//	setFontSize(50,80);
 	
 	int x=0, autorizacion=1;
 	
