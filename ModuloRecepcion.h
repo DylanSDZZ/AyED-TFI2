@@ -550,3 +550,569 @@ int registrarSocio_Rutina() // Registra una rutina para el socio
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+//--------------------------------------------------- SECCION REGISTRAR SOCIOS EN UNA ACTIVIDAD ----------------------------------------------//
+
+//[*]Validaciones y adicionales
+int validarSocios1(int soc) // Determina si un numero de socio esta registrado
+{
+	FILE *arch;
+	arch = fopen("../Base_de_datos/Socios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	if(arch==NULL)
+	{
+		return 0;
+	}
+	
+	if(feof(arch))
+	{
+		return 0;
+	}
+	
+	while(!feof(arch))
+	{
+		if(reg.numSocio==soc)
+		{
+			fclose(arch);
+			return 1;
+			
+		}else{
+			fread(&reg,sizeof(reg),1,arch);
+		}	
+	}
+	
+	fclose(arch);
+	return 0;
+	
+}
+
+
+int comprobarActividad_Socio(char tipo, int numSocio) //Comprueba si el socio puede desarrollar una actividad
+{
+	FILE *arch;
+	arch = fopen("../Base_de_datos/Socios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	if(feof(arch))
+	{
+		return 1;
+	}
+	
+	while(!feof(arch))
+	{
+		if(reg.numSocio==numSocio)
+		{
+			if(tipo=='Z')
+			{	
+				if(reg.indMedicas.zum=='S')
+				{
+					fclose(arch);
+					return 1;
+					
+				}else
+				{
+					fclose(arch);
+					return 0;	
+				} 
+			}	
+			
+			
+			if(tipo=='P')
+			{	
+				if(reg.indMedicas.pil=='S')
+				{
+					fclose(arch);
+					return 1;
+					
+				}else
+				{
+					fclose(arch);
+					return 0;	
+				} 
+			}	
+			
+			
+			if(tipo=='S')
+			{	
+				if(reg.indMedicas.spin=='S')
+				{
+					fclose(arch);
+					return 1;
+					
+				}else
+				{
+					fclose(arch);
+					return 0;	
+				} 
+			}		
+			
+		}else 	fread(&reg,sizeof(reg),1,arch);
+		
+	}
+	
+	fclose(arch);
+	return 0;
+	
+}
+
+
+int turnoInscripto_Socio(int nSocio, char cod[5]) //Devuelve un 1 si el socio esta inscripto en esa actividad, 0 en caso contrario
+{
+	int i=0;
+	FILE *arc;
+	socioAct aux;
+	
+	arc = fopen ("../Base_de_datos/Socio-Act.dat", "rb");
+
+	if(arc==NULL)
+	{
+		fclose(arc);
+		return 0;	//Si el archivo no existe, entonces el socio no esta inscripto a ninguna actividad
+	}
+	
+	else
+	{
+		fread(&aux, sizeof(socioAct), 1, arc);
+		
+		if(feof(arc))
+		{
+			fclose(arc);
+			return 0; // Si el archivo esta vacio, entonces el socio no esta inscripto a ninguna actividad
+		}
+		
+		while(!feof(arc))
+		{
+			if(aux.numSocio==nSocio)
+			{
+				if (strcmp(cod, aux.cod)==0)
+				{
+					fclose(arc);
+					return 1;
+					
+				} else fread(&aux, sizeof(socioAct), 1, arc);
+				
+			}else fread(&aux, sizeof(socioAct), 1, arc);
+		}
+	}
+	
+	fclose(arc); 
+	return 0;
+}
+
+
+int validarActividad_Socio(char cod[5], char tipo) //Devuelve 1 si la actividad existe, 0 en caso contrario
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Actividades.dat","rb");
+	actividades aux; 
+	
+	fread(&aux, sizeof(aux), 1, arc);	
+	while(!feof(arc))
+	{
+		
+		if(tipo==aux.cod[0])
+		{
+			if(strcmp(aux.cod,cod)==0)
+			{
+				fclose(arc);
+				return 1;
+				
+			}else fread(&aux, sizeof(aux), 1, arc);	
+			
+		}else fread(&aux, sizeof(aux), 1, arc);	
+	
+	}
+	fclose(arc);
+	return 0;
+	
+}
+
+
+int entrenadorACargo_Actividad(char cod[5]) //Recibe el codigo de una actividad y retorna el legajo del entrenador encargado
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Actividades.dat","rb");
+	actividades aux; 
+	
+	fread(&aux, sizeof(aux), 1, arc);	
+	while(!feof(arc))
+	{
+		
+		if(strcmp(cod, aux.cod)==0)
+		{
+		 	fclose(arc);			
+			return aux.legEntrenador;		
+				
+		}else fread(&aux, sizeof(aux), 1, arc);	
+	
+	}
+	fclose(arc);
+	return 0;	
+	
+}
+
+
+
+//[+]Funciones de impresion
+int mostrarTipo_Actividad(char inicial) //Muestra las actividades de un solo tipo
+{
+	FILE *arc;
+	arc= fopen("../Base_de_datos/Actividades.dat","rb");
+	actividades aux;
+	int i=0;
+	
+	system("cls");	
+	
+	if(arc==NULL)
+	{
+		printf ("\n 			       -->>> ERROR <<<-- \n");
+		printf ("\n > El archivo no existe, intente registrar una Actividad e intente nuevamente...\n");
+		return 0;
+	}
+	
+	else
+	{
+		printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+		
+		
+		
+		fread(&aux,sizeof(aux),1, arc);	
+		while(!feof(arc))
+		{
+			if(aux.cod[0]==inicial)
+			{
+				if(i==0)
+				{
+					printf("\n %c TURNOS DISPONIBLES PARA LA ACTIVIDAD SELECCIONADA: \n", 04);
+				}
+				
+				printf("\n > -------------------------------------------------- <\n");
+				
+				printf("\n %c Codigo de la actividad: %s  \n", 26, aux.cod);
+			
+				printf("\n %c Horario:  ", 04);
+				switch(aux.horario)
+				{
+					case 1:		
+						printf("10:00 A 12:00 HORAS\n");
+					break;
+						
+					case 2:		
+						printf("12:00 A 14:00 HORAS\n");
+					break;
+					
+					case 3:		
+						printf("14:00 A 16:00 HORAS\n");
+					break;
+					
+					case 4:		
+						printf("16:00 A 18:00 HORAS\n");
+					break;
+					
+					case 5:		
+						printf("18:00 A 20:00 HORAS\n");
+					break;
+					
+					case 6:		
+						printf("20:00 A 22:00 HORAS\n");
+					break;					
+								
+				}
+				char aux_nombre[61];	
+				buscarNombre_Entrenador(aux.legEntrenador, aux_nombre);
+				printf("\n %c Entrenador a cargo: %s\n", 04, aux_nombre); 
+	
+				
+				fread(&aux,sizeof(aux),1, arc);	
+				i++;
+						
+			}else fread(&aux,sizeof(aux),1, arc);
+		}
+		
+	}
+	
+	if(i<=0)
+	{
+		printf("\n %c NO HAY TURNOS DISPONIBLES PARA LA ACTIVIDAD SELECCIONADA... \n", 04);
+	}
+	
+	if(i>0)
+	{
+		printf("\n > -------------------------------------------------- <\n");	
+		fclose(arc);
+		return 1;
+	}	
+	
+	return 0;
+
+}
+
+
+
+
+
+//[2] Funciones secundarias de la funcion registrarActividad_Socio
+int ingresarTipo_Actividades(char &tipo) // Se ingresa y se valida que el tipo de actividad sea el correcto
+{
+	char aux;
+	printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+	
+	//Se ingresa el caracter que representa al tipo de actividad
+	printf("\n %c Tipos de actividades a Registrar: \n\n		%c [Z]: Zumba	%c [S]: Spining	%c [P]: Pilates \n", 26, 04, 04, 04);
+	do
+	{
+		_flushall();
+		printf("\n\n %c Ingrese la inicial (en MAYUSCULAS) correspondiente a la actividad: ", 04); scanf("%c", &tipo);
+		
+		
+		if (tipo!='Z' and tipo!='S' and tipo!='P') 
+		{
+			printf("\n %c Se ingreso un tipo de actividad incorrecto, intente nuevamente...\n\n", 33);
+			
+		}
+		else 
+		{
+			return 1;	
+		}
+		
+	}while (tipo!='Z' and tipo!='S' and tipo!='P');
+	
+	return 0;
+}
+
+
+int buscarNombre_Socio1(int numeroSocio) //Realiza la busqueda del nombre del socio y lo imprime
+{
+	FILE *arc;
+	socios reg;
+	
+	arc = fopen ("../Base_de_datos/Socios.dat", "rb");
+
+	
+	fread(&reg, sizeof(socios), 1, arc);
+	
+	while (!feof (arc))
+	{
+		if (numeroSocio == reg.numSocio)
+		{
+			_flushall();
+			printf("\n %c Nombre del socio selccionado: %s\n\n", 04, reg.nomyape);
+			printf("\n - "); system("pause"); system("cls");
+			
+			fclose(arc);
+			return 1;
+		}
+		else
+		{
+			fread(&reg, sizeof(socios), 1, arc);
+		}
+	}
+	fclose(arc);
+	return 0;
+}
+
+
+int seleccionarTurno_Socio(char cod[5], char tipo) //Se selecciona el turno que desea el socio y se comprueba que no este inscripto anteriormente
+{
+	char codAux[5];
+	do
+	{
+		printf("\n\n %c Ingrese el codigo del turno seleccionado: ", 26); scanf("%s", &codAux);
+		if(validarActividad_Socio(codAux, tipo))
+		{
+			strcpy(cod, codAux);	
+			return 1;
+			
+		}else printf("\n %c Se ha ingresado un codigo de actividad incorrecto, intente nuevamente... \n", 33);
+	}	
+	while(!validarActividad_Socio(cod, tipo));
+	
+	return 0;
+}
+
+
+//[*]Manipulacion de archivos
+void crearSocioAct(socioAct nuevo) //Guarda el la actividad del socio en Socios-Act.dat
+{
+	FILE *arc;
+	arc=fopen ("../Base_de_datos/Socio-Act.dat", "a+b");
+	
+	fwrite(&nuevo, sizeof(socioAct),1, arc);
+	
+	fclose(arc);
+	
+}
+
+
+int aumentarSocios_Actividad(char cod[5]) //Recibe el codigo de una actividad y aumenta en 1 la cantidad de socios
+{
+	FILE *arc;
+	arc = fopen("../Base_de_datos/Actividades.dat","r+b");
+	actividades aux;
+	
+	fread(&aux,sizeof(aux),1, arc);	
+	while(!feof(arc))
+	{
+		if(strcmp(aux.cod, cod)==0)
+		{
+			aux.cantParticipantes++;
+			fseek(arc, -sizeof(actividades),1);
+			fwrite(&aux,sizeof(aux),1, arc);
+				
+			fclose(arc);
+			return 1;
+			
+		} else fread(&aux,sizeof(aux),1, arc);
+	}
+	
+	fclose(arc);
+	return 0;
+	
+}
+
+
+
+//[1]Funcion Principal
+void registrarActividad_Socio()
+{
+	int numAux, confirmacion;
+	char tipoAux;
+	socioAct nuevo;
+	
+	
+	printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+	
+	printf("\n %c Ingrese el numero de socio a registrar: ", 04); scanf("%d", &numAux);
+
+	if(validarSocios1(numAux))
+	{
+		buscarNombre_Socio1(numAux);
+		nuevo.numSocio=numAux;
+		
+		//[1] Se valida que se ingrese un tipo de actividad valida
+		if(ingresarTipo_Actividades(tipoAux))
+		{
+			//[2] Se valida que el socio pueda desarrollar la actividad
+			if(comprobarActividad_Socio(tipoAux, nuevo.numSocio))
+			{
+				//[3] Se muestran los turnos de la actividad seleccionada
+				if(mostrarTipo_Actividad(tipoAux))
+				{
+					//[4] Se valida que se seleccione un turno correcto
+					if(seleccionarTurno_Socio(nuevo.cod, tipoAux))
+					{
+						//[5] Se valida que el socio no este inscripto en ese turno
+						if(!turnoInscripto_Socio(nuevo.numSocio, nuevo.cod))
+						{
+							//Se guarda el legajo del entrenador que esta a cargo de la actividad
+							nuevo.legajo_Entrenador= entrenadorACargo_Actividad(nuevo.cod);
+							
+							printf("\n\n - "); system("pause"); system("cls");
+							
+							printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+							
+							printf("\n %c Numero del socio que se adhiere a la actividad: %d\n", 04, nuevo.numSocio);
+							printf("\n %c Legajo del entrenador a cargo de la actividad: %d\n", 04, nuevo.legajo_Entrenador);
+							printf("\n %c Codigo de la actividad seleccionada: %s\n", 04, nuevo.cod);
+							
+							
+							//[6] Una vez validado, se guarda el dato en el archivo y se incrementa la cantidad de socios que desarrollan la actividad
+							printf("\n\n %c Ingrese 1 para confirmar el registro: ", 26); scanf("%d", &confirmacion);
+							if(confirmacion) 
+							{
+								printf("\n\n %c El registro se realizo exitosamente...", 33);
+								printf("\n\n -"); system("pause");
+								aumentarSocios_Actividad(nuevo.cod);
+								crearSocioAct(nuevo);
+								
+							}else printf("\n\n %c No se ha completado el registro...", 33);
+							
+							
+							
+						}else printf("\n %c El socio ya se encuentra inscripto en este turno...\n\n", 33);
+						
+					}
+					
+				}
+				
+				
+			}else printf("\n %c El socio no puede realizar esta actividad por orden medica...\n\n", 33);
+		}
+		
+	}else printf("\n\n %c El numero de socio no se encuentra registrado...\n\n", 33);
+
+
+	
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+//--------------------------------------------------- SECCION FECHA DE PAGO DE LOS SOCIOS ----------------------------------------------------//
+
+void calcularFechaDePago_Socio(fecha aux, char nomyape[61], int numSocio)
+{
+	int dia, mes, anio;
+	
+	anio=aux.anio;
+	mes=aux.mes;
+	dia=aux.dia;
+	
+	if(aux.mes>=1 or aux.mes<=11)
+	{
+		mes++;
+		if(mes==2)
+		{
+			dia--;
+		}
+	}
+	if(aux.mes==12)
+	{
+		mes=1;
+		anio++;
+	}
+	printf("\n %c Numero de socio: %d \n\n %c Nombre del socio: %s \n",04, numSocio, 04, nomyape);
+	printf("\n %c La fecha de pago del socio  es : %d-%d-%d", 04, dia, mes, anio);
+	printf("\n---------------------%c ---------------------------------- %c---------------------", 04, 04);
+	
+	
+}
+
+void imprimirFechasDePago_Socios()
+{
+	FILE *arch;
+	arch = fopen("../Base_de_datos/Socios.dat","rb");
+	socios reg;
+	
+	fread(&reg, sizeof(reg), 1, arch);
+	
+	printf("\n--------------------------%c FECHAS DE PAGO DE SOCIOS %c--------------------------", 04, 04);
+	
+	if(arch==NULL)
+	{
+		printf("\n %%c No hay socios registrados en la base de datos...");
+	}
+	if(feof(arch))
+	{
+		printf("\n %%c No hay socios registrados en la base de datos...");
+	}
+	
+	while(!feof(arch))
+	{
+		calcularFechaDePago_Socio(reg.fec_ingreso, reg.nomyape, reg.numSocio);
+		fread(&reg, sizeof(reg), 1, arch);	
+	}
+	
+	fclose(arch);
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------//
