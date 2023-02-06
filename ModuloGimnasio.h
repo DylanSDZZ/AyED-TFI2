@@ -198,6 +198,9 @@ void registrarRutinas(int legajo){  // FUNCION QUE REGISTRA LAS RUTINAS
 	
 }
 
+int buscarNombre_Socio (int numeroSocio);
+
+
 void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE INICIO SESION
 	entrenador aux;
 	system("cls");
@@ -216,7 +219,7 @@ void menuIngreso(int legajo){   // RECIBE EL NUMERO DE LEGAJO DEL ENTRENADOR QUE
 		switch(op){
 
 			case 1:
-				//listarSocios(legajo); // ENVIA A LA FUNCION LISTAR SOCIOS EL NUMERO DE LEGAJO GUARDADO EN LA VARIABLE LEGAJO  // FUNCION TODAVIA NO CREADA
+				buscarNombre_Socio(legajo); // ENVIA A LA FUNCION LISTAR SOCIOS EL NUMERO DE LEGAJO GUARDADO EN LA VARIABLE LEGAJO  // FUNCION TODAVIA NO CREADA
 				break;
 
 			case 2:

@@ -9,12 +9,16 @@
 #include "ModuloRecepcion.h"
 #include "ModuloGimnasio.h"
 
+inline void setFontSize(int a, int b);
+
+
 main()
 {	
 
 	system ("mode con cols=80");
 	system("COLOR 0C");
 	SetConsoleTitle("GYMSIS 1.0"); 
+	setFontSize(13,21);
 	
 	int x=0, autorizacion=1;
 	
@@ -32,7 +36,7 @@ main()
 		switch(x)
 		{
 			case 1: 
-				system("cls");
+				system("cls");	
 				moduloAdmin();
 				break;
 				
@@ -54,4 +58,24 @@ main()
 		
 	}
 	
+}
+
+
+inline void setFontSize(int a, int b) 
+{
+
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    PCONSOLE_FONT_INFOEX lpConsoleCurrentFontEx = new CONSOLE_FONT_INFOEX();
+
+    lpConsoleCurrentFontEx->cbSize = sizeof(CONSOLE_FONT_INFOEX);
+
+    GetCurrentConsoleFontEx(hStdOut, 0, lpConsoleCurrentFontEx);
+
+    lpConsoleCurrentFontEx->dwFontSize.X = a;
+
+    lpConsoleCurrentFontEx->dwFontSize.Y = b;
+
+    SetCurrentConsoleFontEx(hStdOut, 0, lpConsoleCurrentFontEx);
+
 }
