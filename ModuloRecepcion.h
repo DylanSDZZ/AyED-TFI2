@@ -260,3 +260,293 @@ void SesionRecepcion(){
 	
 	
 }
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+//--------------------------------------------------- SECCION REGISTRAR SOCIO EN UNA RUTINA --------------------------------------------------//
+
+int validarSocios1(int soc) // Determina si un numero de socio esta registrado- HAY QUE BORRAR ESTA FUNCION
+{
+	FILE *arch;
+	arch = fopen("../Base_de_datos/Socios.dat","rb");
+	socios reg;
+	
+	fread(&reg,sizeof(reg),1,arch);
+	
+	if(arch==NULL)
+	{
+		return 0;
+	}
+	
+	if(feof(arch))
+	{
+		return 0;
+	}
+	
+	while(!feof(arch))
+	{
+		if(reg.numSocio==soc)
+		{
+			fclose(arch);
+			return 1;
+			
+		}else{
+			fread(&reg,sizeof(reg),1,arch);
+		}	
+	}
+	
+	fclose(arch);
+	return 0;
+	
+}
+
+//[*]Validaciones
+int validarActividadConEntrenador(int legEntrenador, int numSocio) // Valida que exista una actividad en comun entre entrenador y socio
+{
+	FILE *arc;
+	arc = fopen ("../Base_de_datos/Socio-Act.dat", "rb");
+	socioAct aux;
+	
+	if(arc==NULL)
+	{
+		fclose(arc);
+		return 0;	//Si el archivo no existe, entonces el socio no tiene ninguna actividad en comun con el entrenador
+	}
+	
+	else
+	{
+		fread(&aux, sizeof(socioAct), 1, arc);
+		
+		if(feof(arc))
+		{
+			fclose(arc);
+			return 0; // Si el archivo esta vacio, entonces el socio no tiene ninguna actividad en comun con el entrenador
+		}
+		
+		while(!feof(arc))
+		{
+			if(aux.numSocio==numSocio)
+			{
+				if(aux.legajo_Entrenador==legEntrenador)
+				{
+					fclose(arc);
+					return 1;
+				} else fread(&aux, sizeof(socioAct), 1, arc);
+				
+			}else fread(&aux, sizeof(socioAct), 1, arc);
+		}
+	}
+	
+	fclose(arc); 
+	return 0;
+	
+	
+}
+
+
+int validarRutina(int codRut, int leg)// Valida que la rutina exista y le pertenezca a ese entrenador
+{
+	FILE *arc;
+	arc = fopen ("../Base_de_datos/Rutinas.dat", "rb");
+	rutina aux;
+
+	if(arc==NULL)
+	{
+		fclose(arc); //Retorna 0, ya que el entrenador no tiene registrada ninguna rutina: el archivo no existe.
+		return 0;
+	}
+	
+	if(feof(arc))
+	{
+		fclose(arc); //Retorna 0, ya que el entrenador no tiene registrada ninguna rutina: el archivo esta vacio.
+		return 0;	
+	}	
+	else
+	{
+		fread(&aux, sizeof(rutina), 1, arc);
+		while(!feof(arc))
+		{
+			if(aux.legajoEntrenador==leg)
+			{
+				if(aux.CodRut==codRut)
+				{
+					fclose(arc);
+					return 1;
+				}else fread(&aux, sizeof(rutina), 1, arc);
+				
+			}else fread(&aux, sizeof(rutina), 1, arc);
+			
+		}
+	}
+	fclose(arc);
+	return 0;
+	
+}
+
+
+//[*] Impresion 
+int mostrarRutinas_Entrenador(int legEntrenador)//Recibe el numero de legajo de un entrenador, e imprime las rutinas que tiene registrada
+{
+	FILE *arc;
+	arc = fopen ("../Base_de_datos/Rutinas.dat", "rb");
+	rutina aux;
+	int i=0;
+	
+	if(arc==NULL)
+	{
+		fclose(arc); //Retorna 0, ya que el entrenador no tiene registrada ninguna rutina: el archivo no existe.
+		return 0;
+	}
+	
+	if(feof(arc))
+	{
+		fclose(arc); //Retorna 0, ya que el entrenador no tiene registrada ninguna rutina: el archivo esta vacio.
+		return 0;	
+	}	
+	else
+	{
+		fread(&aux, sizeof(rutina), 1, arc);
+		
+		system("cls");
+		printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+				
+				
+		while(!feof(arc))
+		{
+			if(aux.legajoEntrenador==legEntrenador)
+			{
+				if(i==0)
+				{
+					printf("\n %c Rutinas disponibles para este entrenador: \n\n");
+					printf(" > ---------------------------------------------------------- < \n", 04, 04);
+				} 
+				
+			
+				printf("\n %c Codigo de la rutina: %d\n\n", 26, aux.CodRut);
+				printf("\n %c Tipo de actividad a la que esta destinada la rutina: ", 26);
+				if(aux.tipo=='Z') printf(" ZUMBA \n");
+				if(aux.tipo=='P') printf(" PILATES \n");
+				if(aux.tipo=='S') printf(" SPINING \n");
+				
+				printf("\n > ---------------------------------------------------------- < \n", 04, 04);
+					
+				fread(&aux, sizeof(rutina), 1, arc);
+				i++;
+				
+			}else fread(&aux, sizeof(rutina), 1, arc);
+		}	
+	}
+	
+	fclose(arc);
+	return 1;
+	
+	
+}
+
+void mostrarRutinasDeSocios()//Muestra las rutinas que debe realizar cada socio
+{
+	FILE *arc;
+	arc = fopen ("../Base_de_datos/Socios-Rut.dat", "a+b");
+	socioRut nuevo;
+		
+	system("cls");
+	printf("\n\n--------------------------%c RUTINAS DE LOS SOCIOS %c-----------------------------\n", 04, 04);	
+	
+	fread(&nuevo, sizeof(socioRut), 1, arc);
+	while(!feof(arc))
+	{
+	
+		printf("\n %c Numero de socio: %d \n", 04, nuevo.numSocio);
+		printf("\n %c Codigo de la rutina: %d \n", 04, nuevo.CodRut);
+		fread(&nuevo, sizeof(socioRut), 1, arc);
+		printf("\n %c ---------------- %c \n", 04, 04);
+	}
+	
+	printf("\n\n -"); system("pause");
+	fclose(arc);
+}
+
+
+
+//[+] Manipulacion de archivos
+void crearSocioRut(socioRut nuevo)//Crea y guarda el dato relacional en Socios-rut.dat
+{
+	FILE *arc;
+	arc = fopen ("../Base_de_datos/Socios-Rut.dat", "a+b");
+	
+	fwrite(&nuevo, sizeof(socioRut), 1, arc);
+	
+	fclose(arc);
+}
+
+
+//[1] Funcion principal
+int registrarSocio_Rutina() // Registra una rutina para el socio
+{
+	int numAux, legAux, repeticion=0, rut, confirmacion=0;
+	socioRut nuevo;
+	
+	do
+	{
+		system("cls");
+		printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+		
+		
+		printf("\n %c Ingrese el numero de socio a registrar: ", 04); scanf("%d", &numAux);
+	
+		if(validarSocios1(numAux))
+		{
+			nuevo.numSocio=numAux;
+			
+			printf("\n\n %c Numero del entrenador que quiere asignar rutina: ", 04); scanf("%d", &legAux);
+			if(validarActividadConEntrenador(legAux, numAux))
+			{
+				if(mostrarRutinas_Entrenador(legAux))
+				{
+					printf("\n\n\n %c Ingrese el codigo de la rutina seleccionada: ", 04); scanf("%d", &rut);
+					
+					if(validarRutina(rut, legAux))
+					{
+						nuevo.CodRut=rut;
+						
+						system("cls");
+						printf("\n\n-----------------------%c REGISTRAR ACTIVIDAD DE SOCIO %c-------------------------\n", 04, 04);
+						printf("\n %c Informacion ingresada: \n", 04);
+						printf("\n %c Numero de socio: %d \n", 04, nuevo.numSocio);
+						printf("\n %c Codigo de la rutina: %d \n", 04, nuevo.CodRut);
+						
+						printf("\n\n %c Ingrese 1 para confirmar el registro: ", 26); scanf("%d", &confirmacion);
+						if(confirmacion) 
+						{
+							printf("\n %c El registro se realizo exitosamente...\n\n", 33);
+							printf("\n\n -"); system("pause");
+							crearSocioRut(nuevo);
+							return 1;
+							
+							
+						}else printf("\n\n %c No se ha completado el registro...", 33);
+						
+						
+						
+					}else printf("\n %c Se ingreso un codigo de rutina incorrecto\n\n", 33); 
+					
+					
+				}else printf("\n %c El entrenador no tiene rutinas creadas...\n", 33);
+				
+			}else printf("\n\n %c El entrenador no tiene este socio a cargo...\n", 33);
+			
+		}else printf("\n %c No se ha encontrado un socio con este numero...\n", 33);
+		
+		printf("\n\n\n %c Ingrese 1 si quiere volver a intentar: ", 04); scanf("%d", &repeticion);
+		
+	}while(repeticion==1);
+	
+	return 0;
+	
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
