@@ -1433,7 +1433,6 @@ void moduloAdmin()//Funcion de administracion, a llamarse en el programa princip
 {
 	int x=0, autorizacion=1, reintentar=0;
 	
-
 	if(validarExistenciaArchivo())
 	{
 		if(iniciarSesionAdmin())
